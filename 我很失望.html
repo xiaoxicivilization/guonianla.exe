@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>和我玩！！！</title>
+  <style>
+    /* 全局重置：消除所有边距、滚动条，让红色铺满每一寸 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* 禁止滚动，保证满屏无空隙 */
+      background: #ff0000; /* 纯正红色，铺满背景 */
+      font-family: 'Impact', 'Arial Black', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+
+    /* 主容器：绝对定位铺满全屏，用于居中文字 */
+    .full-red {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #ff0000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      /* 防止任何内容溢出 */
+      overflow: hidden;
+      user-select: none;
+      cursor: default;
+    }
+
+    /* 主文字：巨大、醒目、带有动态效果 */
+    .main-text {
+      font-size: clamp(4rem, 15vw, 12rem);
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.3),
+        0 0 60px rgba(255, 255, 255, 0.1),
+        4px 4px 0 rgba(0, 0, 0, 0.2);
+      letter-spacing: 0.05em;
+      text-align: center;
+      line-height: 1.2;
+      animation: pulse 1.8s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+
+    /* 副文字/装饰 */
+    .sub-text {
+      font-size: clamp(1.2rem, 4vw, 3rem);
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.3em;
+      margin-top: 0.5em;
+      animation: flicker 2.4s ease-in-out infinite alternate;
+      font-weight: 300;
+    }
+
+    /* 背景装饰：随机飘浮的“！”和“·”，增强满屏红色的层次 */
+    .bg-float {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .float-char {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.06);
+      font-size: clamp(2rem, 8vw, 8rem);
+      font-weight: 900;
+      animation: floatAround 12s infinite alternate ease-in-out;
+      transform-origin: center;
+      user-select: none;
+    }
+
+    /* 随机分布的字符位置和延迟由 JS 生成 */
+
+    /* ===== 动画 ===== */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.1);
+      }
+      100% {
+        transform: scale(1.06);
+        text-shadow: 0 0 60px rgba(255, 255, 255, 0.5), 0 0 120px rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.6; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+
+    @keyframes floatAround {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(3%, -5%) rotate(5deg) scale(1.1); }
+      50% { transform: translate(-2%, 4%) rotate(-3deg) scale(0.9); }
+      75% { transform: translate(5%, 2%) rotate(4deg) scale(1.05); }
+      100% { transform: translate(-3%, -3%) rotate(-2deg) scale(0.95); }
+    }
+
+    /* 额外抖动效果（鼠标悬停时触发，增加互动感） */
+    .full-red:hover .main-text {
+      animation: pulse 1.2s ease-in-out infinite alternate, shake 0.3s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(-2px) rotate(-0.5deg); }
+      25% { transform: translateX(2px) rotate(0.5deg); }
+      50% { transform: translateX(-1px) rotate(-0.3deg); }
+      75% { transform: translateX(1px) rotate(0.3deg); }
+      100% { transform: translateX(0) rotate(0); }
+    }
+
+    /* ===== 响应式微调 ===== */
+    @media (max-width: 480px) {
+      .main-text {
+        font-size: clamp(3rem, 20vw, 6rem);
+      }
+      .sub-text {
+        font-size: clamp(1rem, 5vw, 2rem);
+        letter-spacing: 0.2em;
+      }
+      .float-char {
+        font-size: clamp(1.5rem, 10vw, 5rem);
+      }
+    }
+
+    /* 屏幕边缘无任何白边 */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 满屏红色主容器 -->
+  <div class="full-red" id="fullRed">
+    <!-- 主文字 -->
+    <div class="main-text" id="mainText">和我玩！！！</div>
+    <!-- 副文字 -->
+    <div class="sub-text" id="subText">❤️ 来呀 ❤️</div>
+  </div>
+
+  <!-- 背景浮动装饰（纯CSS + JS生成） -->
+  <div class="bg-float" id="bgFloat"></div>
+
+  <script>
+    (function() {
+      // ===== 生成背景浮动字符 =====
+      const bgFloat = document.getElementById('bgFloat');
+      const chars = ['!', '！', '·', '•', '❤', '♥', '✦', '✧', '‼', '⁉'];
+      const count = 30; // 字符数量
+
+      for (let i = 0; i < count; i++) {
+        const span = document.createElement('span');
+        span.className = 'float-char';
+        span.textContent = chars[Math.floor(Math.random() * chars.length)];
+        
+        // 随机位置 (百分比)
+        const left = Math.random() * 95;
+        const top = Math.random() * 95;
+        span.style.left = left + '%';
+        span.style.top = top + '%';
+        
+        // 随机大小 (在原有基础上微调)
+        const sizeScale = 0.6 + Math.random() * 0.8;
+        span.style.fontSize = `calc(clamp(1.5rem, 6vw, 6rem) * ${sizeScale})`;
+        
+        // 随机透明度
+        span.style.opacity = 0.03 + Math.random() * 0.08;
+        
+        // 随机动画延迟 (让运动错落)
+        const delay = Math.random() * 8;
+        span.style.animationDelay = delay + 's';
+        span.style.animationDuration = (10 + Math.random() * 8) + 's';
+        
+        bgFloat.appendChild(span);
+      }
+
+      // ===== 点击/触摸屏幕时，文字抖动 + 颜色微变 (增强互动) =====
+      const fullRed = document.getElementById('fullRed');
+      const mainText = document.getElementById('mainText');
+      const subText = document.getElementById('subText');
+
+      fullRed.addEventListener('click', function(e) {
+        // 主文字快速闪烁
+        mainText.style.transition = '0.1s';
+        mainText.style.transform = 'scale(1.2)';
+        mainText.style.textShadow = '0 0 80px rgba(255,255,255,0.8), 0 0 160px rgba(255,255,255,0.4)';
+        
+        // 副文字变化
+        const reactions = ['😈 来呀！', '🔥 快点！', '💥 就现在！', '⚡ 别怕！', '🎯 对！'];
+        subText.textContent = reactions[Math.floor(Math.random() * reactions.length)];
+        subText.style.color = 'rgba(255, 255, 255, 0.9)';
+        
+        setTimeout(() => {
+          mainText.style.transform = 'scale(1)';
+          mainText.style.textShadow = '0 0 30px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.1)';
+          // 恢复副文字（但保留随机变化，更生动）
+          setTimeout(() => {
+            subText.textContent = '❤️ 来呀 ❤️';
+            subText.style.color = 'rgba(255, 255, 255, 0.7)';
+          }, 800);
+        }, 300);
+      });
+
+      // ===== 鼠标移动时，背景浮动字符轻微响应 (制造动态感) =====
+      document.addEventListener('mousemove', function(e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        
+        // 让主文字产生极轻微的视差
+        mainText.style.transform = `translate(${x * 2}px, ${y * 2}px) scale(1.02)`;
+        // 但保留 pulse 动画，所以用过渡
+        mainText.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1)';
+        
+        // 副文字也轻微移动
+        subText.style.transform = `translate(${x * 4}px, ${y * 4}px)`;
+        subText.style.transition = 'transform 0.5s ease-out';
+      });
+
+      // 鼠标离开窗口时复位
+      document.addEventListener('mouseleave', function() {
+        mainText.style.transform = 'scale(1)';
+        subText.style.transform = 'translate(0, 0)';
+      });
+
+      // ===== 控制台彩蛋 =====
+      console.log('❤️ 和我玩！！！ ❤️');
+      console.log('🔥 点击屏幕有惊喜！');
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>何东市人民政府 · 门户网站</title>
+  <style>
+    /* ===== 全局重置 & 基础 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+    }
+
+    body {
+      background: #f0f3f7;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .gov-wrapper {
+      max-width: 1200px;
+      width: 100%;
+      background: #ffffff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    /* ===== 顶部通知栏（政府公告特征） ===== */
+    .top-notice {
+      background: #f7f9fc;
+      border-bottom: 1px solid #e4e9f0;
+      padding: 8px 24px;
+      font-size: 0.85rem;
+      color: #2b4a6e;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .top-notice a {
+      color: #1f4a72;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    .top-notice a:hover { text-decoration: underline; }
+    .top-notice .gov-badge {
+      background: #b1001e;
+      color: white;
+      padding: 0 12px;
+      border-radius: 12px;
+      margin-right: 8px;
+      font-weight: 500;
+      font-size: 0.75rem;
+      display: inline-block;
+    }
+
+    /* ===== 头部（庄重、标识性强） ===== */
+    .header {
+      padding: 20px 28px 16px;
+      border-bottom: 4px solid #b1001e;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: #ffffff;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      background: #b1001e;
+      color: white;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 4px;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+    .brand-text {
+      font-size: 2.0rem;
+      font-weight: 700;
+      color: #0b2a44;
+      letter-spacing: 4px;
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: #4a637c;
+      background: #eef3f9;
+      padding: 2px 16px;
+      border-radius: 20px;
+      border: 1px solid #d7e0ea;
+      font-weight: 400;
+    }
+
+    /* 搜索栏（保留功能） */
+    .search-area {
+      display: flex;
+      align-items: center;
+      background: #f7fafd;
+      border: 1px solid #ccd7e4;
+      border-radius: 4px;
+    }
+    .search-area input {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      width: 200px;
+      outline: none;
+      font-size: 0.9rem;
+    }
+    .search-area input::placeholder { color: #889fb3; }
+    .search-btn {
+      background: #b1001e;
+      border: none;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.15s;
+      border-left: 1px solid #8f0018;
+    }
+    .search-btn:hover { background: #8f0018; }
+
+    /* ===== 主体：两栏布局 ===== */
+    .main-content {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 24px 28px 32px;
+      gap: 28px;
+    }
+
+    /* 左栏：新闻列表 */
+    .news-section {
+      flex: 2;
+      min-width: 280px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #e6ecf3;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+    }
+    .section-header h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #122b42;
+      border-left: 4px solid #b1001e;
+      padding-left: 14px;
+    }
+    .section-header a {
+      font-size: 0.8rem;
+      color: #6b839b;
+      text-decoration: none;
+    }
+    .section-header a:hover { text-decoration: underline; }
+
+    /* 新闻列表项 */
+    .news-item {
+      display: flex;
+      flex-direction: column;
+      padding: 14px 0;
+      border-bottom: 1px dashed #eef2f7;
+      cursor: pointer;
+      transition: background 0.1s;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .news-item:hover {
+      background: #f8fafd;
+    }
+    .news-item .title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #1f3a57;
+      margin-bottom: 4px;
+    }
+    .news-item .title:hover { color: #b1001e; }
+    .news-item .meta {
+      font-size: 0.8rem;
+      color: #7a92a9;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .news-item .desc {
+      font-size: 0.9rem;
+      color: #4a637c;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .news-tag {
+      font-size: 0.65rem;
+      background: #eef3f9;
+      color: #1f4a72;
+      padding: 2px 14px;
+      border-radius: 12px;
+      border: 1px solid #cddae9;
+      display: inline-block;
+    }
+
+    /* 右栏：侧边信息（政府网站常见模块） */
+    .sidebar {
+      flex: 1;
+      min-width: 220px;
+    }
+    .sidebar-box {
+      background: #f8fafd;
+      border: 1px solid #e4ebf3;
+      border-radius: 4px;
+      padding: 18px 20px;
+      margin-bottom: 22px;
+    }
+    .sidebar-box h3 {
+      font-size: 1rem;
+      color: #122b42;
+      border-bottom: 2px solid #b1001e;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    .sidebar-box ul {
+      list-style: none;
+    }
+    .sidebar-box li {
+      padding: 6px 0;
+      border-bottom: 1px dashed #edf2f8;
+    }
+    .sidebar-box li a {
+      color: #2b4a6e;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .sidebar-box li a:hover { text-decoration: underline; color: #b1001e; }
+    .sidebar-box li span {
+      float: right;
+      color: #889fb3;
+      font-size: 0.75rem;
+    }
+
+    /* ===== 底部（政府网站典型样式） ===== */
+    .footer {
+      background: #f7fafd;
+      border-top: 3px solid #b1001e;
+      padding: 16px 28px;
+      font-size: 0.8rem;
+      color: #6b839b;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer .footer-links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer a { color: #1f4a72; text-decoration: none; margin: 0 6px; }
+    .footer a:hover { text-decoration: underline; }
+    .footer .gov-flag {
+      display: inline-block;
+      background: #b1001e;
+      color: white;
+      padding: 0 12px;
+      border-radius: 2px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-right: 4px;
+    }
+    /* 版权信息样式 */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #889fb3;
+      border-top: 1px solid #e4ebf3;
+      padding-top: 12px;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+    .footer-copyright a {
+      color: #1f4a72;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+    .footer-copyright a:hover {
+      text-decoration: underline;
+    }
+
+    /* 政府标识强调 */
+    .gov-flag {
+      display: inline-block;
+      background: #b1001e;
+      color: white;
+      padding: 0 12px;
+      border-radius: 2px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-right: 4px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 700px) {
+      .header { flex-direction: column; align-items: stretch; }
+      .search-area { width: 100%; }
+      .search-area input { flex: 1; }
+      .brand { justify-content: center; flex-wrap: wrap; }
+      .brand-text { font-size: 1.6rem; }
+    }
+    @media (max-width: 500px) {
+      .gov-wrapper { border-radius: 0; }
+      .header, .main-content, .footer { padding-left: 16px; padding-right: 16px; }
+      .brand-text { font-size: 1.3rem; }
+      .top-notice { font-size: 0.75rem; padding: 6px 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="gov-wrapper">
+  <!-- ===== 顶部通知栏 ===== -->
+  <div class="top-notice">
+    <div>
+      <span class="gov-badge">公告</span>
+      <a href="#">《何东市城市管理条例（草案）》公开征求意见</a>
+      <span style="margin-left:12px; color:#889fb3;">|</span>
+      <a href="#">2024年政府工作报告</a>
+    </div>
+    <div>
+      <a href="#">无障碍浏览</a> | <a href="#">长者模式</a> | <span id="dateDisplay"></span>
+    </div>
+  </div>
+
+  <!-- ===== 头部 ===== -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">🏛 何东</div>
+      <div class="brand-text">市人民政府</div>
+      <span class="brand-sub">门户网站</span>
+    </div>
+    <div class="search-area">
+      <input type="text" placeholder="请输入搜索关键词" id="searchInput">
+      <button class="search-btn" id="searchButton">搜索</button>
+    </div>
+  </header>
+
+  <!-- ===== 主体 ===== -->
+  <div class="main-content">
+    <!-- 左栏：新闻 -->
+    <section class="news-section">
+      <div class="section-header">
+        <h2>今日要闻</h2>
+        <a href="#">更多 &gt;</a>
+      </div>
+
+      <!-- 新闻1 (跳转0201.html) -->
+      <div class="news-item" onclick="window.location.href='0201.html'">
+        <div class="title">“新年到，人欢笑” 何东市群众召集活动启动</div>
+        <div class="meta">
+          <span class="news-tag">活动</span>
+          <span>2024-12-31</span>
+          <span>来源：何东日报</span>
+        </div>
+        <div class="desc">全城共庆，温暖迎新。活动涵盖文艺演出、民俗体验、美食集市等，诚邀广大市民参与。</div>
+      </div>
+
+      <!-- 新闻2 (跳转0202.html) -->
+      <div class="news-item" onclick="window.location.href='0202.html'">
+        <div class="title">水家海鲜感恩回馈 邀请市民共享海洋盛宴</div>
+        <div class="meta">
+          <span class="news-tag">公告</span>
+          <span>2024-12-28</span>
+          <span>来源：市商务局</span>
+        </div>
+        <div class="desc">为促进消费、回馈市民，水家海鲜推出为期一周的惠民活动，每日限量供应新鲜渔获。</div>
+      </div>
+
+      <!-- 新闻3 (跳转0000.html) -->
+      <div class="news-item" onclick="window.location.href='0000.html'">
+        <div class="title">2024年何东市十大民生实事全部完成</div>
+        <div class="meta">
+          <span class="news-tag">时讯</span>
+          <span>2024-12-27</span>
+          <span>来源：市政府办公室</span>
+        </div>
+        <div class="desc">涵盖教育、医疗、交通、养老等领域，各项工程均通过验收并投入使用，群众满意度高。</div>
+      </div>
+
+      <!-- 新闻4 (跳转0000.html) -->
+      <div class="news-item" onclick="window.location.href='0000.html'">
+        <div class="title">何东市启动“迎新春·保安全”安全生产专项检查</div>
+        <div class="meta">
+          <span class="news-tag">监管</span>
+          <span>2024-12-26</span>
+          <span>来源：市应急管理局</span>
+        </div>
+        <div class="desc">重点对烟花爆竹、道路交通、人员密集场所等领域开展隐患排查，确保节日安全。</div>
+      </div>
+    </section>
+
+    <!-- ===== 右栏：侧边 ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-box">
+        <h3>国务院信息</h3>
+        <ul>
+          <li><a href="#">进一步优化营商环境若干措施</a><span>12-20</span></li>
+          <li><a href="#">2025年民生实事项目征集公告</a><span>12-18</span></li>
+          <li><a href="#">关于推动文旅融合发展的指导意见</a><span>12-16</span></li>
+        </ul>
+      </div>
+      <div class="sidebar-box">
+        <h3>通知公告</h3>
+        <ul>
+          <li><a href="#">何东市2024年度公务员招考公告</a><span>12-15</span></li>
+          <li><a href="#">春节期间烟花爆竹燃放管理通告</a><span>12-14</span></li>
+          <li><a href="#">关于公开征集2024年立法项目建议的公告</a><span>12-12</span></li>
+        </ul>
+      </div>
+      <!-- 增加一个“政府信息公开”模块，强化政府网站特征 -->
+      <div class="sidebar-box">
+        <h3>政府信息公开</h3>
+        <ul>
+          <li><a href="#">政府领导</a><span> </span></li>
+          <li><a href="#">机构职能</a><span> </span></li>
+          <li><a href="#">政策文件</a><span> </span></li>
+          <li><a href="#">财政预决算</a><span> </span></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== 底部 ===== -->
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <a href="#">网站地图</a> | <a href="#">联系我们</a> | <a href="#">隐私保护</a> | <a href="#">网站声明</a>
+      </div>
+      <div>
+        <span class="gov-flag">何东</span> 主办单位：何东市人民政府办公室  |  承办单位：何东市政务服务中心
+      </div>
+    </div>
+    <!-- 版权信息 -->
+    <div class="footer-copyright">
+      【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // 显示当前日期，格式为 2024年XX月XX日
+  document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('zh-CN', { year:'numeric', month:'2-digit', day:'2-digit' });
+
+  // ===== 搜索跳转映射表 =====
+  const searchMap = {
+    'end': 'happyend.html',
+    '唐小鲤': 'txl.html',
+    'TSXXCZTSXXCZTS': '1end.html',
+    '何东市': 'NEWS.html',
+    '小希文明': 'XXCZ.html',
+    '账号密码表': '我很失望.html',
+    '水家海鲜': 'SJHX.html',
+    '叶知秋': '!404!.html',
+    'xiaoxi': 'xiaoxiend.html'
+  };
+
+  // ===== 搜索处理函数 =====
+  function handleSearch() {
+    const input = document.getElementById('searchInput');
+    const query = input.value.trim();
+
+    if (query === '') {
+      alert('请输入搜索关键词');
+      return;
+    }
+
+    // 精确匹配查找
+    const targetUrl = searchMap[query];
+    if (targetUrl) {
+      window.location.href = targetUrl;
+    } else {
+      // 未匹配到任何关键词，可在此处添加默认行为，例如跳转到通用搜索页或提示
+      alert(`未找到与“${query}”相关的页面，请重新输入。`);
+      // 可选： window.location.href = '/search?q=' + encodeURIComponent(query);
+    }
+  }
+
+  // ===== 绑定事件 =====
+  const searchBtn = document.getElementById('searchButton');
+  const searchInput = document.getElementById('searchInput');
+
+  searchBtn.addEventListener('click', handleSearch);
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  });
+</script>
+</body>
+</html>

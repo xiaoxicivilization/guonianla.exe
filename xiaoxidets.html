@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文字 · 密码验证</title>
+  <style>
+    /* 全局重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+
+    /* 主卡片 — 纯黑，与背景融合 */
+    .stage {
+      max-width: 700px;
+      width: 100%;
+      background: #000000;
+      border-radius: 48px 48px 32px 32px;
+      padding: 48px 40px 56px;
+      box-shadow: none;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 文字显示区域 */
+    .text-display {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+    }
+
+    .main-text {
+      font-size: 3.2rem;
+      font-weight: 600;
+      color: #f0ece4;
+      letter-spacing: 4px;
+      line-height: 1.3;
+      transition: all 0.2s ease;
+      text-shadow: 0 0 30px rgba(255,255,240,0.05);
+      word-break: break-word;
+    }
+
+    /* 输入框区域（第二页显示） */
+    .input-area {
+      width: 100%;
+      max-width: 420px;
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .input-area.active {
+      display: flex;
+    }
+
+    .input-area input {
+      width: 100%;
+      padding: 14px 20px;
+      border: 2px solid #2a2a2a;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      background: #0a0a0a;
+      color: #f0ece4;
+      outline: none;
+      transition: 0.2s;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .input-area input:focus {
+      border-color: #b3411d;
+      box-shadow: 0 0 20px rgba(179, 65, 29, 0.15);
+    }
+
+    .input-area input::placeholder {
+      color: #4a4a4a;
+      letter-spacing: 1px;
+    }
+
+    .input-area .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1d3e58;
+      color: #f5ede0;
+      border: none;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      letter-spacing: 2px;
+      border: 1px solid #2a4a66;
+    }
+
+    .input-area .submit-btn:hover {
+      background: #b3411d;
+      border-color: #8f0018;
+      transform: scale(0.97);
+    }
+
+    /* 提示信息 */
+    .message-area {
+      min-height: 28px;
+      font-size: 0.9rem;
+      color: #b3411d;
+      text-align: center;
+      transition: 0.2s;
+      margin-top: 4px;
+    }
+
+    .message-area.success {
+      color: #1d7a3e;
+    }
+
+    /* 点击提示 — 初始显示 */
+    .click-hint {
+      font-size: 0.7rem;
+      color: #2a2a2a;
+      letter-spacing: 2px;
+      padding: 4px 18px;
+      border-radius: 60px;
+      border: 1px solid #1a1a1a;
+      opacity: 0.5;
+      margin-top: 16px;
+      transition: opacity 0.5s ease;
+    }
+
+    .click-hint.hidden {
+      opacity: 0;
+    }
+
+    /* 响应式 */
+    @media (max-width: 480px) {
+      .stage { padding: 36px 24px 48px; min-height: 240px; }
+      .main-text { font-size: 2.4rem; }
+      .input-area { max-width: 100%; }
+      .input-area input { font-size: 1rem; padding: 12px 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .main-text { font-size: 1.8rem; }
+      .stage { padding: 28px 16px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="text-display" id="textDisplay">
+    <div class="main-text" id="mainText">你终于知道密码了</div>
+    <div class="click-hint" id="clickHint">✦ 点击任意处继续 ✦</div>
+
+    <!-- 第二页：输入框 -->
+    <div class="input-area" id="inputArea">
+      <input type="text" id="passwordInput" placeholder="请输入密码" autocomplete="off">
+      <button class="submit-btn" id="submitBtn">确 认</button>
+      <div class="message-area" id="messageArea"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---- 状态管理 ----
+    const stage = document.getElementById('stage');
+    const mainTextEl = document.getElementById('mainText');
+    const clickHint = document.getElementById('clickHint');
+    const inputArea = document.getElementById('inputArea');
+    const passwordInput = document.getElementById('passwordInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageArea = document.getElementById('messageArea');
+
+    let currentStep = 0; // 0: 第一页, 1: 第二页（输入框）
+    let isWaitingForJump = false;
+
+    // ---- 正确的密码 ----
+    const CORRECT_PASSWORD = 'YEZIQIUMEILIANGXIANG';
+    const SUCCESS_URL = 'index.html';
+    const FAIL_URL = '1end.html';
+
+    // ---- 渲染第一页 ----
+    function renderFirstPage() {
+      mainTextEl.textContent = '你终于知道密码了';
+      clickHint.classList.remove('hidden');
+      inputArea.classList.remove('active');
+      messageArea.textContent = '';
+      messageArea.classList.remove('success');
+      passwordInput.value = '';
+    }
+
+    // ---- 渲染第二页（输入框） ----
+    function renderSecondPage() {
+      mainTextEl.textContent = '那密码是';
+      clickHint.classList.add('hidden');
+      inputArea.classList.add('active');
+      messageArea.textContent = '';
+      messageArea.classList.remove('success');
+      passwordInput.value = '';
+      // 自动聚焦输入框
+      setTimeout(() => passwordInput.focus(), 100);
+    }
+
+    // ---- 处理点击（前进到第二页） ----
+    function handleStageClick() {
+      if (isWaitingForJump) return;
+
+      // 如果当前在第一页，前进到第二页
+      if (currentStep === 0) {
+        currentStep = 1;
+        renderSecondPage();
+        return;
+      }
+
+      // 如果当前在第二页（输入框），点击页面其他区域不做事，由输入框和按钮处理
+      // 但点击输入框或按钮会触发各自的事件，这里不做额外处理
+    }
+
+    // ---- 处理密码提交 ----
+    function handleSubmit() {
+      if (isWaitingForJump) return;
+
+      const password = passwordInput.value.trim();
+      if (password === '') {
+        messageArea.textContent = '⚠️ 请输入密码';
+        messageArea.classList.remove('success');
+        return;
+      }
+
+      // 验证密码
+      if (password === CORRECT_PASSWORD) {
+        messageArea.textContent = '✅ 密码正确，正在跳转...';
+        messageArea.classList.add('success');
+        isWaitingForJump = true;
+        setTimeout(() => {
+          window.location.href = SUCCESS_URL;
+        }, 600);
+      } else {
+        messageArea.textContent = '❌ 密码错误，正在跳转...';
+        messageArea.classList.remove('success');
+        isWaitingForJump = true;
+        setTimeout(() => {
+          window.location.href = FAIL_URL;
+        }, 600);
+      }
+    }
+
+    // ---- 初始化 ----
+    renderFirstPage();
+
+    // ---- 事件绑定 ----
+    // 点击卡片（仅在第一页时生效）
+    stage.addEventListener('click', function(e) {
+      // 如果点击的是输入框或按钮，不触发页面切换
+      if (e.target.closest('.input-area')) return;
+      handleStageClick();
+    });
+
+    // 点击提交按钮
+    submitBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      handleSubmit();
+    });
+
+    // 按回车键提交
+    passwordInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSubmit();
+      }
+    });
+
+    // 键盘支持：空格/回车在第一页时前进
+    document.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Space' || e.key === 'Enter') {
+        // 如果当前在第二页且输入框有焦点，不触发页面切换
+        if (currentStep === 1 && document.activeElement === passwordInput) {
+          return;
+        }
+        e.preventDefault();
+        handleStageClick();
+      }
+    });
+
+    console.log('🔐 密码验证已启动');
+    console.log('📌 正确密码: YEZIQIUMEILIANGXIANG → index.html');
+    console.log('📌 错误密码 → 1end.html');
+  })();
+</script>
+
+</body>
+</html>

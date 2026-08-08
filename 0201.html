@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新年到，人欢笑——2024何东市群众召集活动侧记</title>
+    <style>
+        /* ===== 全局重置 & 基础 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f0f3f7;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .gov-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* ===== 顶部通知栏 ===== */
+        .top-notice {
+            background: #f7f9fc;
+            border-bottom: 1px solid #e4e9f0;
+            padding: 8px 24px;
+            font-size: 0.85rem;
+            color: #2b4a6e;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .top-notice a {
+            color: #1f4a72;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        .top-notice a:hover { text-decoration: underline; }
+        .top-notice .gov-badge {
+            background: #b1001e;
+            color: white;
+            padding: 0 12px;
+            border-radius: 12px;
+            margin-right: 8px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+
+        /* ===== 头部 ===== */
+        .header {
+            padding: 20px 28px 16px;
+            border-bottom: 4px solid #b1001e;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background: #ffffff;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-icon {
+            background: #b1001e;
+            color: white;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .brand-text {
+            font-size: 2.0rem;
+            font-weight: 700;
+            color: #0b2a44;
+            letter-spacing: 4px;
+        }
+        .brand-sub {
+            font-size: 0.8rem;
+            color: #4a637c;
+            background: #eef3f9;
+            padding: 2px 16px;
+            border-radius: 20px;
+            border: 1px solid #d7e0ea;
+            font-weight: 400;
+        }
+
+        /* 搜索栏 */
+        .search-area {
+            display: flex;
+            align-items: center;
+            background: #f7fafd;
+            border: 1px solid #ccd7e4;
+            border-radius: 4px;
+        }
+        .search-area input {
+            border: none;
+            background: transparent;
+            padding: 8px 14px;
+            width: 200px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+        .search-area input::placeholder { color: #889fb3; }
+        .search-btn {
+            background: #b1001e;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.15s;
+            border-left: 1px solid #8f0018;
+        }
+        .search-btn:hover { background: #8f0018; }
+
+        /* ===== 面包屑导航 ===== */
+        .breadcrumb {
+            padding: 16px 28px 0 28px;
+            font-size: 0.85rem;
+            color: #6b839b;
+        }
+        .breadcrumb a {
+            color: #1f4a72;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb .separator {
+            margin: 0 8px;
+            color: #b0c0cd;
+        }
+
+        /* ===== 文章主体 ===== */
+        .article-container {
+            padding: 24px 40px 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .article-header {
+            border-bottom: 3px solid #c0392b;
+            padding-bottom: 22px;
+            margin-bottom: 30px;
+        }
+
+        .article-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Georgia', serif;
+        }
+
+        .article-header .subhead {
+            font-size: 1rem;
+            color: #7f6b5c;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #ddd6ce;
+            padding-top: 14px;
+            margin-top: 6px;
+        }
+
+        .article-header .subhead .date {
+            background: #f0ebe6;
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #5a4a3d;
+            letter-spacing: 0.5px;
+        }
+
+        .article-header .subhead .source {
+            font-style: italic;
+            color: #8a7a6b;
+        }
+
+        /* 正文内容 */
+        .content p {
+            margin-bottom: 1.8rem;
+            text-indent: 2em;
+            font-size: 1.08rem;
+            color: #2e2a26;
+            line-height: 1.9;
+        }
+
+        .content p:first-of-type {
+            margin-top: 6px;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a93226;
+            margin: 2.2rem 0 1.2rem 0;
+            padding-left: 16px;
+            border-left: 6px solid #c0392b;
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Georgia', serif;
+            line-height: 1.4;
+            text-indent: 0;
+        }
+
+        .content h2:first-of-type {
+            margin-top: 0.4rem;
+        }
+
+        .content .quote {
+            background: #f8f4f0;
+            border-left: 4px solid #c0392b;
+            padding: 16px 24px;
+            margin: 1.8rem 0;
+            font-style: italic;
+            color: #3d352e;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.05rem;
+            text-indent: 0;
+        }
+
+        .content .quote strong {
+            color: #a93226;
+            font-weight: 600;
+        }
+
+        .image-placeholder {
+            background: #eae3db;
+            border-radius: 12px;
+            padding: 28px 20px;
+            margin: 30px 0 32px;
+            text-align: center;
+            color: #7a6a5a;
+            font-size: 0.95rem;
+            border: 1px dashed #c5b8ab;
+            letter-spacing: 2px;
+            background-image: radial-gradient(circle at 10% 20%, #f0e8e0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .image-placeholder span {
+            background: rgba(255, 252, 249, 0.7);
+            padding: 6px 22px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        .article-footer {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 2px solid #e8e0d8;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: #8a7a6b;
+        }
+
+        .article-footer .tags {
+            background: #f0ebe6;
+            padding: 4px 18px;
+            border-radius: 40px;
+        }
+
+        /* ===== 底部 ===== */
+        .footer {
+            background: #f7fafd;
+            border-top: 3px solid #b1001e;
+            padding: 16px 28px;
+            font-size: 0.8rem;
+            color: #6b839b;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .footer a { color: #1f4a72; text-decoration: none; margin: 0 6px; }
+        .footer a:hover { text-decoration: underline; }
+        .footer .gov-flag {
+            display: inline-block;
+            background: #b1001e;
+            color: white;
+            padding: 0 12px;
+            border-radius: 2px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-right: 4px;
+        }
+        .footer-copyright {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #889fb3;
+            border-top: 1px solid #e4ebf3;
+            padding-top: 12px;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+        .footer-copyright a {
+            color: #1f4a72;
+            text-decoration: none;
+            margin: 0 4px;
+        }
+        .footer-copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== 返回按钮 ===== */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #1f4a72;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .header { flex-direction: column; align-items: stretch; }
+            .search-area { width: 100%; }
+            .search-area input { flex: 1; }
+            .brand { justify-content: center; flex-wrap: wrap; }
+            .brand-text { font-size: 1.6rem; }
+            .article-container { padding: 16px 18px 24px; }
+            .article-header h1 { font-size: 1.6rem; }
+        }
+        @media (max-width: 500px) {
+            .gov-wrapper { border-radius: 0; }
+            .header, .footer { padding-left: 16px; padding-right: 16px; }
+            .brand-text { font-size: 1.3rem; }
+            .top-notice { font-size: 0.75rem; padding: 6px 16px; }
+            .article-container { padding: 12px 14px 20px; }
+            .article-header h1 { font-size: 1.4rem; }
+            .content p { font-size: 0.95rem; }
+            .content .quote { padding: 12px 16px; }
+            .article-header .subhead { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+<div class="gov-wrapper">
+    <!-- ===== 顶部通知栏 ===== -->
+    <div class="top-notice">
+        <div>
+            <span class="gov-badge">公告</span>
+            <a href="#">《何东市城市管理条例（草案）》公开征求意见</a>
+            <span style="margin-left:12px; color:#889fb3;">|</span>
+            <a href="#">2024年政府工作报告</a>
+        </div>
+        <div>
+            <a href="#">无障碍浏览</a> | <a href="#">长者模式</a> | <span id="dateDisplay"></span>
+        </div>
+    </div>
+
+    <!-- ===== 头部 ===== -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">🏛 何东</div>
+            <div class="brand-text">市人民政府</div>
+            <span class="brand-sub">门户网站</span>
+        </div>
+        <div class="search-area">
+            <input type="text" placeholder="请输入搜索关键词" id="searchInput">
+            <button class="search-btn" id="searchButton">搜索</button>
+        </div>
+    </header>
+
+    <!-- ===== 面包屑 ===== -->
+    <div class="breadcrumb">
+        <a href="0101.html">首页</a>
+        <span class="separator">›</span>
+        <a href="#">新闻动态</a>
+        <span class="separator">›</span>
+        <span style="color:#2b4a6e; font-weight:500;">新年到，人欢笑——2024何东市群众召集活动侧记</span>
+    </div>
+
+    <!-- ===== 文章主体 ===== -->
+    <div class="article-container">
+        <!-- 返回链接：改为 0101.html -->
+        <a href="0101.html" class="back-link">← 返回首页</a>
+
+        <article>
+            <header class="article-header">
+                <h1>新年到，人欢笑 —— 2024何东市群众召集活动侧记</h1>
+                <div class="subhead">
+                    <span class="date">📅 2024年12月31日</span>
+                    <span class="source">来源：何东日报 · 记者：何东市融媒体中心</span>
+                </div>
+            </header>
+
+            <div class="content">
+                <p>爆竹声中一岁除，春风送暖入屠苏。2024年元旦伊始，何东市以“新年到，人欢笑”为主题，在全市范围内开展了一系列群众召集与新春同乐活动。从受灾安置点的暖心慰问到城乡社区的文艺联欢，从非遗文化的活态传承到冰雪场上的欢声笑语，何东儿女在喜庆祥和的氛围中辞旧迎新，凝聚起团结奋进的精神力量。</p>
+
+                <h2>心系群众，温情涌动安置点</h2>
+                <p>新年第一天，何东市主要领导深入基层，看望慰问受灾群众和抗震救灾一线人员，将党和政府的关怀送到群众心坎上。在积石山县刘集乡陶家村安置点，活动板房内床铺、被褥、火炉等生活物资配备齐全，警务、医务、心理辅导等工作人员持续为群众提供服务。慰问组走进板房，与群众促膝交谈，详细询问家庭受灾和安置情况，鼓励大家坚定信心，在党和政府的关怀支持下重建美好家园。</p>
+
+                <div class="quote">
+                    “虽然遭遇了困难，但新年第一天就感受到这么多温暖，我们心里热乎乎的。” —— 安置点群众
+                </div>
+
+                <p>慰问组还嘱咐乡村干部密切关注群众情绪和心理状态，以实实在在的行动让群众感受到节日的温暖。在刘集乡人民政府，慰问组向坚守一线的基层干部送去慰问金，对大家“舍小家、顾大家”的奉献精神给予高度肯定，勉励大家继续发扬敢打硬仗的优良作风，齐心协力打赢抗震救灾这场硬仗。</p>
+
+                <div class="image-placeholder">
+                    <span>📷 慰问现场 · 温情瞬间</span>
+                </div>
+
+                <h2>文化惠民，城乡同乐年味浓</h2>
+                <p>春节期间，何东市以“驰骋河湟迎新春 欢聚何东过大年”为主题，策划推出百余项迎新春系列文旅惠民活动，将文化大餐送到群众家门口。从乡村“村晚”到城市舞台，从非遗展演到科技光影，传统年味与现代活力交融碰撞，点燃了城乡节日氛围。</p>
+
+                <p>在乐都区七里店易地搬迁安置小区，2024年“我们的村晚”首场巡回文艺联欢演出拉开序幕，汇聚藏族、回族、土族、彝族等多民族艺术精品，展现出各民族交往交流交融的和谐画卷。在报坡村，“春节七天乐”活动璀璨上演，文艺志愿者与当地村民同台献艺，非洲鼓的激昂节奏与本土歌舞的悠扬旋律交相辉映，歌声传递心声，舞姿展现豪情，现场掌声雷动，欢声笑语汇成一片欢乐的海洋。</p>
+
+                <div class="quote">
+                    “百龙千狮闹新春”非物质文化遗产社火展演作为重头戏，整合了千人太傅、藏族螭鼓舞等12类河湟特色非遗项目，于农历正月初十精彩亮相。
+                </div>
+
+                <p>舞龙舞狮、民俗巡演将河湟民俗的独特魅力展现得淋漓尽致，为群众奉上了一场有底蕴、有温度的文化盛宴。与此同时，无人机光影秀、冰雪乐园、新春灯会等体验项目全面开放，传统与新潮碰撞，让不同年龄段的群众都能找到属于自己的“年味”。</p>
+
+                <h2>凝聚民心，共绘奋进新画卷</h2>
+                <p>文化惠民，根在基层。何东市采取“市级引领、县区联动、全民参与”模式，各县区组织“村晚”、广场舞大赛等群众文化活动40余场次，让群众既是文化受益者，也是活动参与者。在民和回族土族自治县，桃花源街市广场上古韵与新潮相融，国风盛宴持续上演，群众在沉浸式体验中感受传统年俗魅力；六县区联动的年货大集上，青稞酒、刺绣等特色展区人头攒动，折扣让利、满减补贴等促销政策让群众一站式采购年货，实惠满满。</p>
+
+                <div class="quote">
+                    “孩子放假了，带过来看看节目，近距离感受传统文化魅力，这是最好的新春礼物。” —— 市民王先生
+                </div>
+
+                <p>一场场家门口的文化盛宴，不仅让年味更浓、更醇，更让文化惠民的阳光照进千家万户，将文化自信、民族团结、民生幸福融入新春佳节，让群众在欢声笑语中共享发展成果。</p>
+
+                <div class="image-placeholder">
+                    <span>🎉 城乡同乐 · 文化惠民</span>
+                </div>
+
+                <p><strong>新春新气象，奋进正当时。</strong>从受灾安置点的守望相助到城乡社区的欢歌笑语，从传统文化的活态传承到文旅融合的创新实践，2024年何东市群众新春活动以文化为桥、以节庆为媒，汇聚起各族群众团结一心、共建美好家园的磅礴力量。鼓点擂动春潮，欢歌传遍河湟，何东儿女正以饱满的热情和昂扬的姿态，在新的一年里续写幸福美好生活的新篇章。</p>
+            </div>
+
+            <footer class="article-footer">
+                <span class="tags">🏷️ 新春活动 · 群众召集 · 文化惠民</span>
+                <span>何东市人民政府 · 2024</span>
+            </footer>
+        </article>
+    </div>
+
+    <!-- ===== 底部 ===== -->
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <a href="#">网站地图</a> | <a href="#">联系我们</a> | <a href="#">隐私保护</a> | <a href="#">网站声明</a>
+            </div>
+            <div>
+                <span class="gov-flag">何东</span> 主办单位：何东市人民政府办公室  |  承办单位：何东市政务服务中心
+            </div>
+        </div>
+        <div class="footer-copyright">
+            【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // 显示当前日期
+    document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('zh-CN', { year:'numeric', month:'2-digit', day:'2-digit' });
+
+    // ===== 搜索跳转映射表 =====
+    const searchMap = {
+        'end': 'happyend.html',
+        '唐小鲤': 'txl.html',
+        'TSXXCZTSXXCZTS': '1end.html',
+        '何东市': 'NEWS.html',
+        '小希文明': 'XXCZ.html',
+        '账号密码表': '我很失望.html',
+        '水家海鲜': 'SJHX.html',
+        '叶知秋': '!404!.html',
+        'xiaoxi': 'xiaoxiend.html'
+    };
+
+    function handleSearch() {
+        const input = document.getElementById('searchInput');
+        const query = input.value.trim();
+
+        if (query === '') {
+            alert('请输入搜索关键词');
+            return;
+        }
+
+        const targetUrl = searchMap[query];
+        if (targetUrl) {
+            window.location.href = targetUrl;
+        } else {
+            alert(`未找到与“${query}”相关的页面，请重新输入。`);
+        }
+    }
+
+    const searchBtn = document.getElementById('searchButton');
+    const searchInput = document.getElementById('searchInput');
+
+    searchBtn.addEventListener('click', handleSearch);
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+        }
+    });
+</script>
+</body>
+</html>

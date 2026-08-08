@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文字 · 代号 · 终章</title>
+  <style>
+    /* 全局重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+
+    /* 主卡片 — 纯黑，与背景融合 */
+    .stage {
+      max-width: 700px;
+      width: 100%;
+      background: #000000;
+      border-radius: 48px 48px 32px 32px;
+      padding: 48px 40px 56px;
+      box-shadow: none;
+      text-align: center;
+      position: relative;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 文字显示区域 */
+    .text-display {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 12px;
+    }
+
+    .main-text {
+      font-size: 3.2rem;
+      font-weight: 600;
+      color: #f0ece4;
+      letter-spacing: 4px;
+      line-height: 1.3;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 30px rgba(255,255,240,0.05);
+      word-break: break-word;
+      min-height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 子文本 / 状态提示 */
+    .sub-text {
+      font-size: 1.0rem;
+      color: #4a4a4a;
+      letter-spacing: 2px;
+      margin-top: 6px;
+      border-top: 1px dashed #1a1a1a;
+      padding-top: 16px;
+      width: 50%;
+      opacity: 0.6;
+      font-weight: 300;
+      transition: opacity 0.3s ease;
+      min-height: 3rem;
+    }
+
+    /* 加载/进度指示 */
+    .progress-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .progress-dots .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #2a2a2a;
+      transition: 0.3s;
+    }
+
+    .progress-dots .dot.active {
+      background: #f0ece4;
+      box-shadow: 0 0 16px rgba(240, 236, 228, 0.15);
+    }
+
+    .progress-dots .dot.done {
+      background: #4a4a4a;
+    }
+
+    /* 响应式 */
+    @media (max-width: 480px) {
+      .stage { padding: 36px 24px 48px; min-height: 240px; }
+      .main-text { font-size: 2.4rem; letter-spacing: 2px; min-height: 4rem; }
+      .sub-text { width: 70%; font-size: 0.9rem; }
+    }
+
+    @media (max-width: 380px) {
+      .main-text { font-size: 1.8rem; }
+      .stage { padding: 28px 16px 40px; }
+      .sub-text { width: 80%; font-size: 0.8rem; }
+    }
+
+    /* 淡入动画 */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="text-display" id="textDisplay">
+    <div class="main-text" id="mainText">你知道是我了</div>
+    <div class="sub-text" id="subText">⏳ 等待中...</div>
+    <div class="progress-dots" id="progressDots">
+      <span class="dot active" id="dot1"></span>
+      <span class="dot" id="dot2"></span>
+      <span class="dot" id="dot3"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ===== DOM 引用 =====
+    const mainTextEl = document.getElementById('mainText');
+    const subTextEl = document.getElementById('subText');
+    const dot1 = document.getElementById('dot1');
+    const dot2 = document.getElementById('dot2');
+    const dot3 = document.getElementById('dot3');
+
+    // ===== 文字序列 =====
+    const steps = [
+      {
+        main: '你知道是我了',
+        sub: '⏳ 即将揭晓...',
+        dotIndex: 0  // 激活第一个点
+      },
+      {
+        main: '代号是',
+        sub: '⏳ 正在解码...',
+        dotIndex: 1  // 激活第二个点
+      },
+      {
+        main: 'end',
+        sub: '✅ 代号确认 · 准备跳转',
+        dotIndex: 2  // 激活第三个点
+      }
+    ];
+
+    let currentStep = 0;
+    let isRunning = false;
+
+    // ===== 更新进度点 =====
+    function updateDots(activeIndex) {
+      const dots = [dot1, dot2, dot3];
+      dots.forEach((dot, index) => {
+        dot.classList.remove('active', 'done');
+        if (index < activeIndex) {
+          dot.classList.add('done');
+        } else if (index === activeIndex) {
+          dot.classList.add('active');
+        }
+      });
+    }
+
+    // ===== 渲染步骤 =====
+    function renderStep(index) {
+      const step = steps[index];
+      if (!step) return;
+
+      // 主文字（带淡入效果）
+      mainTextEl.textContent = step.main;
+      mainTextEl.classList.remove('fade-in');
+      // 强制回流后重新添加动画
+      void mainTextEl.offsetWidth;
+      mainTextEl.classList.add('fade-in');
+
+      // 子文字
+      subTextEl.textContent = step.sub;
+      subTextEl.classList.remove('fade-in');
+      void subTextEl.offsetWidth;
+      subTextEl.classList.add('fade-in');
+
+      // 更新进度点
+      updateDots(step.dotIndex);
+    }
+
+    // ===== 执行序列 =====
+    function runSequence() {
+      if (isRunning) return;
+      isRunning = true;
+
+      // 初始状态：显示第一步
+      renderStep(0);
+
+      // 间隔5秒显示第二步
+      setTimeout(() => {
+        if (currentStep < steps.length - 1) {
+          currentStep = 1;
+          renderStep(1);
+        }
+
+        // 再间隔5秒显示第三步并跳转
+        setTimeout(() => {
+          if (currentStep < steps.length - 1) {
+            currentStep = 2;
+            renderStep(2);
+          }
+
+          // 再间隔2秒跳转（让用户看清 "end"）
+          setTimeout(() => {
+            window.location.href = '0101.html';
+          }, 2000);
+
+        }, 5000);
+      }, 5000);
+    }
+
+    // ===== 启动 =====
+    // 先重置所有状态
+    currentStep = 0;
+    isRunning = false;
+    renderStep(0);
+
+    // 延迟一点点启动序列，确保渲染完成
+    setTimeout(runSequence, 300);
+
+    console.log('📌 文字序列已启动');
+    console.log('📌 步骤: "你知道是我了" → "代号是" → "end" → 跳转 0101.html');
+    console.log('📌 每步间隔 5 秒');
+  })();
+</script>
+
+</body>
+</html>

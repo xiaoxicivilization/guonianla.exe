@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🌌 时光机 · 404 页面不存在</title>
+  <!-- 柔和的复古未来主义风格 + 轻量故障效果 -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0b0d1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', 'Share Tech Mono', 'Fira Code', monospace;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 时光机主容器 — 模拟老式 CRT 显示器的轻微弧度和扫描线 */
+    .time-machine {
+      max-width: 780px;
+      width: 100%;
+      background: #14162b;
+      background-image: 
+        radial-gradient(circle at 30% 40%, rgba(60, 80, 200, 0.08) 0%, transparent 60%),
+        linear-gradient(135deg, #1a1d3a 0%, #0f1122 100%);
+      border: 2px solid #3c4b8a;
+      border-radius: 2.5rem 2.5rem 2rem 2rem;
+      padding: 2.8rem 2.5rem 3.5rem;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        0 0 0 1px #4a5a9f inset,
+        0 0 30px rgba(80, 140, 255, 0.2);
+      position: relative;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    /* 模拟屏幕扫描线 (复古感) */
+    .time-machine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.08) 0px,
+        rgba(0, 0, 0, 0.08) 2px,
+        transparent 2px,
+        transparent 6px
+      );
+      pointer-events: none;
+      border-radius: 2.5rem 2.5rem 2rem 2rem;
+      z-index: 2;
+    }
+
+    /* 右上角指示灯 */
+    .power-led {
+      position: absolute;
+      top: 1.4rem;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      z-index: 5;
+    }
+    .led {
+      width: 12px;
+      height: 12px;
+      background: #6affb0;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #6affb0, 0 0 30px rgba(90, 255, 160, 0.3);
+      animation: pulse-led 2.4s infinite alternate;
+    }
+    .led-label {
+      color: #8699d0;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      font-weight: 400;
+    }
+    @keyframes pulse-led {
+      0% { opacity: 0.6; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* 404 核心数字 — 故障毛刺效果 */
+    .glitch-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .glitch-404 {
+      font-size: 8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #b7d0ff;
+      text-shadow: 
+        0 0 10px rgba(60, 140, 255, 0.3),
+        0 0 20px rgba(60, 140, 255, 0.2);
+      letter-spacing: 8px;
+      position: relative;
+      display: inline-block;
+      font-family: 'Courier New', 'Share Tech Mono', monospace;
+    }
+
+    /* 故障叠层 (伪元素实现数字错位) */
+    .glitch-404::before,
+    .glitch-404::after {
+      content: '404';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .glitch-404::before {
+      color: #ff5e7a;
+      transform: translate(-3px, -2px) skewX(-2deg);
+      text-shadow: 2px 0 8px #ff3b5c;
+      z-index: -1;
+      animation: glitch-shift-1 0.6s infinite alternate;
+      clip-path: inset(0 0 70% 0);
+    }
+
+    .glitch-404::after {
+      color: #6bf0ff;
+      transform: translate(4px, 3px) skewX(3deg);
+      text-shadow: -2px 0 10px #00d4ff;
+      z-index: -1;
+      animation: glitch-shift-2 0.8s infinite alternate;
+      clip-path: inset(60% 0 0 0);
+    }
+
+    @keyframes glitch-shift-1 {
+      0% { transform: translate(-4px, -2px) skewX(-3deg); }
+      100% { transform: translate(2px, 1px) skewX(1deg); }
+    }
+    @keyframes glitch-shift-2 {
+      0% { transform: translate(3px, 3px) skewX(3deg); }
+      100% { transform: translate(-2px, -1px) skewX(-2deg); }
+    }
+
+    /* 标题与描述 (复古终端风格) */
+    .title {
+      font-size: 2.1rem;
+      font-weight: 400;
+      text-align: center;
+      color: #b7d0ff;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+      margin-bottom: 0.8rem;
+      text-shadow: 0 0 15px rgba(60, 140, 255, 0.3);
+      word-break: break-word;
+    }
+
+    .sub-message {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #8899cc;
+      background: rgba(10, 14, 30, 0.5);
+      padding: 1rem 1.6rem;
+      border-left: 3px solid #3b5c9e;
+      border-right: 3px solid #3b5c9e;
+      border-radius: 30px;
+      max-width: 90%;
+      margin: 0.6rem auto 1.8rem;
+      backdrop-filter: blur(4px);
+      font-family: 'Courier New', 'Fira Code', monospace;
+      box-shadow: 0 0 20px rgba(0, 30, 80, 0.2);
+      line-height: 1.6;
+    }
+
+    .sub-message i {
+      font-style: normal;
+      display: inline-block;
+      background: rgba(80, 160, 255, 0.1);
+      padding: 0 10px;
+      border-radius: 20px;
+      color: #8ab7ff;
+    }
+
+    /* 时光机旋钮 / 装饰性仪表 */
+    .dashboard {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2.2rem 0 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem 0.5rem;
+    }
+
+    .dial {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.3rem 1rem 0.3rem 0.8rem;
+      border-radius: 40px;
+      border: 1px solid #2f4070;
+      backdrop-filter: blur(2px);
+    }
+    .dial span {
+      color: #6883b5;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .knob {
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle at 30% 30%, #8aa3e0, #1f2e5a);
+      border-radius: 50%;
+      border: 1px solid #4f6bb0;
+      box-shadow: 0 0 8px #3f5faa;
+      animation: spin-slow 16s infinite linear;
+    }
+    @keyframes spin-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .date-indicator {
+      color: #7a92c7;
+      background: #0f1229;
+      padding: 0.25rem 1.8rem;
+      border-radius: 40px;
+      border: 1px solid #334880;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      box-shadow: 0 0 12px rgba(0, 20, 70, 0.5);
+      backdrop-filter: blur(4px);
+      font-family: 'Courier New', monospace;
+    }
+    .date-indicator i {
+      font-style: normal;
+      color: #9bb6ff;
+      margin-right: 6px;
+    }
+
+    /* 按钮 — 回到未来 (或主页) */
+    .action-area {
+      display: flex;
+      justify-content: center;
+      margin: 2.2rem 0 1rem;
+    }
+
+    .btn-time-travel {
+      background: transparent;
+      border: 2px solid #4e6bb0;
+      color: #b7d0ff;
+      font-family: 'Courier New', 'Share Tech Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.9rem 3.2rem;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      background: rgba(20, 30, 70, 0.3);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 20px rgba(40, 80, 200, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .btn-time-travel::after {
+      content: '⌛';
+      font-size: 1.6rem;
+      filter: drop-shadow(0 0 10px #7aa9ff);
+      transition: transform 0.4s ease;
+    }
+
+    .btn-time-travel:hover {
+      background: rgba(50, 90, 200, 0.2);
+      border-color: #7a9eff;
+      box-shadow: 0 0 40px rgba(60, 140, 255, 0.3), 0 0 80px rgba(30, 100, 255, 0.1);
+      transform: scale(1.02);
+      color: #d6e8ff;
+    }
+
+    .btn-time-travel:active {
+      transform: scale(0.97);
+    }
+
+    /* 底部小字 — 时间线扰动 */
+    .footer-note {
+      display: flex;
+      justify-content: center;
+      margin-top: 2.2rem;
+      font-size: 0.75rem;
+      color: #3f5280;
+      letter-spacing: 1.5px;
+      border-top: 1px dashed #26355a;
+      padding-top: 1.6rem;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+    }
+    .footer-note span {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.1rem 0.7rem;
+      border-radius: 20px;
+    }
+    .footer-note .blink {
+      animation: blink-fade 1.8s infinite;
+    }
+    @keyframes blink-fade {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* 响应式微调 */
+    @media (max-width: 580px) {
+      .time-machine {
+        padding: 2rem 1.2rem 2.5rem;
+        border-radius: 2rem;
+      }
+      .glitch-404 {
+        font-size: 5.5rem;
+        letter-spacing: 3px;
+      }
+      .title {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+      }
+      .sub-message {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+        max-width: 100%;
+      }
+      .dashboard {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+      }
+      .dial {
+        justify-content: center;
+      }
+      .date-indicator {
+        text-align: center;
+        padding: 0.4rem 0.2rem;
+        font-size: 0.8rem;
+      }
+      .btn-time-travel {
+        padding: 0.7rem 1.8rem;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        width: 100%;
+        justify-content: center;
+      }
+      .btn-time-travel::after {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .glitch-404 {
+        font-size: 4rem;
+      }
+      .title {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="time-machine">
+    <!-- 指示灯 -->
+    <div class="power-led">
+      <span class="led"></span>
+      <span class="led-label">时光机 · 在线</span>
+    </div>
+
+    <!-- 404 故障核心 -->
+    <div class="glitch-wrapper">
+      <div class="glitch-404">404</div>
+    </div>
+
+    <!-- 标题 -->
+    <h1 class="title">◈ 页面已消失在时间裂缝中 ◈</h1>
+
+    <!-- 描述：坐标已修改为 20260806 -->
+    <div class="sub-message">
+      <i>✦</i> 您所寻找的坐标 <span style="color:#9bb6ff; background: #1a2340; padding:0 8px; border-radius:12px;">20260806</span> 在当前时间线中不存在 <i>✦</i>
+    </div>
+
+    <!-- 仪表盘：旋钮 + 日期指示器 (星历改为 2026.08.06) -->
+    <div class="dashboard">
+      <div class="dial">
+        <span>⏳ 时空旋钮</span>
+        <div class="knob"></div>
+      </div>
+      <div class="date-indicator">
+        <i>📟</i> 星历 2026.08.06
+      </div>
+      <div class="dial">
+        <span>⚡ 能量</span>
+        <div style="display:flex; gap:3px; align-items:center;">
+          <span style="color:#a0c0ff;">▰▰▰▰▰</span>
+          <span style="color:#5a7ab0;">▰▰</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 返回首页按钮 (跳转 index.html) -->
+    <div class="action-area">
+      <a href="index.html" class="btn-time-travel" id="travelBtn">⟳ 返回首页</a>
+    </div>
+
+    <!-- 底部信息 — 故障小彩蛋 -->
+    <div class="footer-note">
+      <span>⏻ 时间线扰动</span>
+      <span class="blink">⏁ 信号丢失</span>
+      <span>⌛ 404 纪元</span>
+      <span>⟡ 量子态</span>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // 轻量交互: 点击“返回首页”模拟跳转或刷新，并显示动态反馈
+      const btn = document.getElementById('travelBtn');
+      const timeMachine = document.querySelector('.time-machine');
+
+      // 点击时：产生“时光扭曲”的视觉反馈 + 提示 (跳转由 href 处理)
+      btn.addEventListener('click', function(e) {
+        // 如果是通过 href 跳转，仍然可以播放动画，但为了防止干扰，我们仅做视觉反馈
+        // 但链接跳转会立即执行，所以动画可能看不到；这里我们保留反馈，但跳转由 href 完成。
+        // 为了更好的体验，我们可以阻止默认跳转，用 location 跳转并加入延迟? 
+        // 但用户需求是点击跳转 index.html，保持简单，增加一点动画反馈。
+        // 使用 preventDefault 可以自定义，但大多数用户期望直接跳转。我们使用默认行为，同时增加视觉反馈（瞬间可见）
+        
+        // 但为了保险，如果用户希望看到动画再跳转，可以延迟跳转。但此处保留直接跳转，并附加瞬间样式。
+        // 为了让反馈可见，我们用一小段延迟后再跳转 (但默认会阻断)。我们采用更友好的方式：先执行动画，再跳转。
+        e.preventDefault(); // 阻止默认跳转，我们自己控制
+        
+        // 按钮动画反馈
+        btn.style.transition = 'all 0.08s ease';
+        btn.style.transform = 'scale(0.92)';
+        btn.style.boxShadow = '0 0 60px rgba(100, 180, 255, 0.6)';
+        btn.style.borderColor = '#b0d0ff';
+        
+        // 震动一下容器 (模拟时空扰动)
+        timeMachine.style.transition = 'all 0.1s ease';
+        timeMachine.style.transform = 'translateX(4px) skewX(0.5deg)';
+        setTimeout(() => {
+          timeMachine.style.transform = 'translateX(-3px) skewX(-0.3deg)';
+        }, 60);
+        setTimeout(() => {
+          timeMachine.style.transform = 'translateX(2px) skewX(0.2deg)';
+        }, 120);
+        setTimeout(() => {
+          timeMachine.style.transform = 'translateX(0) skewX(0deg)';
+          timeMachine.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px #4a5a9f inset, 0 0 30px rgba(80, 140, 255, 0.2)';
+        }, 200);
+
+        // 更新按钮文字临时变化
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '⟳ 穿越中…';
+        btn.style.letterSpacing = '4px';
+        
+        // 重置按钮样式并跳转
+        setTimeout(() => {
+          btn.style.transform = 'scale(1)';
+          btn.style.boxShadow = '0 0 20px rgba(40, 80, 200, 0.15)';
+          btn.style.borderColor = '#4e6bb0';
+          btn.innerHTML = originalText;
+          btn.style.letterSpacing = '3px';
+          // 跳转到 index.html
+          window.location.href = 'index.html';
+        }, 500);
+
+        // 小彩蛋: 修改底部日期指示 (闪现未来/过去) 但是不修改原日期，因为星历固定
+        const dateIndicator = document.querySelector('.date-indicator');
+        const originalDate = dateIndicator.innerHTML;
+        // 快速闪烁一下
+        dateIndicator.innerHTML = `<i>📟</i> 星历 2026.08.06 ✦`;
+        setTimeout(() => {
+          dateIndicator.innerHTML = originalDate;
+        }, 400);
+
+        // 额外: 让故障数字闪一下
+        const glitch = document.querySelector('.glitch-404');
+        glitch.style.transition = 'text-shadow 0.1s';
+        glitch.style.textShadow = '0 0 30px #6a9eff, 0 0 80px #3f7aff';
+        setTimeout(() => {
+          glitch.style.textShadow = '0 0 10px rgba(60, 140, 255, 0.3), 0 0 20px rgba(60, 140, 255, 0.2)';
+        }, 200);
+
+        console.log('🌌 时光机启动，返回首页…');
+      });
+
+      // 悬停时轻微故障效果 (无伤大雅)
+      const glitchEl = document.querySelector('.glitch-404');
+      glitchEl.addEventListener('mouseenter', function() {
+        this.style.animationDuration = '0.15s';
+      });
+      glitchEl.addEventListener('mouseleave', function() {
+        this.style.animationDuration = '';
+      });
+    })();
+  </script>
+</body>
+</html>

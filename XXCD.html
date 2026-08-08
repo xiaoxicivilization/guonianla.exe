@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ 彩蛋结局 · 小希文明</title>
+  <style>
+    /* 全局重置 & 字体 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      background-image: 
+        radial-gradient(ellipse at 30% 40%, rgba(120, 80, 200, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 60%, rgba(200, 100, 200, 0.08) 0%, transparent 50%);
+    }
+
+    /* ===== 彩蛋卡片 ===== */
+    .egg-card {
+      max-width: 720px;
+      width: 100%;
+      background: #1a1a1a;
+      border-radius: 40px 40px 32px 32px;
+      padding: 48px 44px 40px;
+      border: 1px solid #3a2a4a;
+      box-shadow: 0 0 80px rgba(150, 80, 200, 0.08), 0 0 160px rgba(100, 50, 150, 0.04);
+      text-align: center;
+      position: relative;
+      transition: 0.25s;
+    }
+
+    /* 微光装饰 */
+    .egg-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 20%; right: 20%; height: 2px;
+      background: linear-gradient(90deg, transparent, #aa77dd, transparent);
+      opacity: 0.5;
+      border-radius: 50%;
+    }
+
+    /* ===== 彩蛋图标 ===== */
+    .egg-icon {
+      font-size: 4.8rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: floatEgg 3s ease-in-out infinite;
+    }
+
+    @keyframes floatEgg {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    /* ===== 标题 ===== */
+    .egg-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #d4b8f0;
+      letter-spacing: 3px;
+      text-shadow: 0 0 30px rgba(170, 100, 220, 0.15);
+      margin-bottom: 6px;
+    }
+
+    .egg-sub {
+      font-size: 1.1rem;
+      color: #8a7a9a;
+      letter-spacing: 4px;
+      border-bottom: 1px dashed #2a2a3a;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    /* ===== 正文 ===== */
+    .egg-body {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #c0b8c8;
+      margin-bottom: 28px;
+    }
+
+    .egg-body .highlight {
+      color: #c8a0e8;
+      font-weight: 500;
+      background: rgba(120, 80, 200, 0.08);
+      padding: 0 6px;
+      border-radius: 4px;
+    }
+
+    /* ===== 官网链接按钮 ===== */
+    .btn-official {
+      display: inline-block;
+      background: #2a1a3a;
+      border: 1px solid #6a4a8a;
+      color: #d4b8f0;
+      padding: 14px 44px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+      letter-spacing: 2px;
+      box-shadow: 0 0 30px rgba(150, 80, 200, 0.05);
+    }
+
+    .btn-official:hover {
+      background: #3a2a5a;
+      border-color: #9a7aba;
+      transform: scale(1.02);
+      box-shadow: 0 0 50px rgba(150, 80, 200, 0.15);
+    }
+
+    .btn-official:active {
+      transform: scale(0.97);
+    }
+
+    .btn-official .arrow {
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+    .btn-official:hover .arrow {
+      transform: translateX(6px);
+    }
+
+    /* ===== 结局标识 ===== */
+    .badge-end {
+      display: inline-block;
+      margin-top: 28px;
+      background: #1a1a2a;
+      border: 1px solid #3a2a4a;
+      color: #8a7a9a;
+      padding: 4px 24px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+    }
+
+    /* ===== 底部 ===== */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #4a4a4a;
+      border-top: 1px solid #2a2a2a;
+      padding-top: 16px;
+      margin-top: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-copyright a {
+      color: #5a5a6a;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .footer-copyright a:hover {
+      color: #8a7a9a;
+    }
+
+    /* ===== 返回链接 ===== */
+    .back-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #5a5a6a;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-bottom: 1px dashed #2a2a3a;
+      padding-bottom: 2px;
+      transition: 0.15s;
+    }
+
+    .back-link:hover {
+      color: #8a7a9a;
+      border-bottom-color: #4a4a6a;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 600px) {
+      .egg-card { padding: 32px 24px 32px; }
+      .egg-title { font-size: 2.0rem; }
+      .egg-body { font-size: 0.98rem; }
+      .btn-official { padding: 12px 32px; font-size: 1.0rem; }
+      .egg-icon { font-size: 3.6rem; }
+    }
+
+    @media (max-width: 400px) {
+      .egg-card { padding: 24px 16px 28px; }
+      .egg-title { font-size: 1.6rem; }
+      .egg-body { font-size: 0.92rem; }
+      .btn-official { padding: 10px 24px; font-size: 0.9rem; }
+    }
+
+    /* 淡入动画 */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.7s ease forwards;
+    }
+  </style>
+</head>
+<body>
+
+<div class="egg-card fade-in">
+  <!-- 彩蛋图标 -->
+  <span class="egg-icon">🥚✨</span>
+
+  <!-- 标题 -->
+  <div class="egg-title">🎉 彩蛋结局</div>
+  <div class="egg-sub">— 你发现了隐藏的秘密 —</div>
+
+  <!-- 正文 -->
+  <div class="egg-body">
+    <p>
+      恭喜你触发了 <span class="highlight">《小希文明》</span> 的彩蛋结局！<br>
+      这个世界的真相，远比你想象的更加深邃。
+    </p>
+    <p style="margin-top: 12px;">
+      欢迎来到 <span class="highlight">小希文明</span> 的官方网站，<br>
+      探索更多隐藏在代码背后的故事。
+    </p>
+  </div>
+
+  <!-- 官网链接 -->
+  <a href="https://link33.cc/xiaoxicivilization" target="_blank" class="btn-official">
+    🌐 前往官网 <span class="arrow">→</span>
+  </a>
+
+  <!-- 结局标识 -->
+  <div class="badge-end">💠 结局代码：END · 彩蛋</div>
+
+  <!-- 返回链接 -->
+  <div style="margin-top: 16px;">
+    <a href="0101.html" class="back-link">← 返回·主页</a>
+  </div>
+
+  <!-- 底部版权 -->
+  <div class="footer-copyright">
+    【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>结局 · 你和我</title>
+  <style>
+    /* 全局重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #ffffff; /* 纯白背景 */
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+
+    /* 主容器 — 居中显示文字 */
+    .ending-container {
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 主文字 — 蓝色 */
+    .ending-text {
+      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      font-weight: 700;
+      color: #0066cc; /* 纯正蓝色 */
+      line-height: 1.5;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(0, 102, 204, 0.08);
+    }
+
+    .ending-text .line {
+      display: block;
+    }
+
+    /* 装饰分隔线 */
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: #0066cc;
+      margin: 28px auto;
+      border-radius: 4px;
+      opacity: 0.25;
+    }
+
+    /* 小彩蛋标识 */
+    .badge-end {
+      display: inline-block;
+      margin-top: 30px;
+      background: #f0f6ff;
+      border: 1px solid #0066cc;
+      color: #0066cc;
+      padding: 4px 28px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      opacity: 0.6;
+    }
+
+    /* 底部版权 */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #cccccc;
+      border-top: 1px solid #eeeeee;
+      padding-top: 18px;
+      margin-top: 40px;
+      letter-spacing: 0.5px;
+      width: 100%;
+    }
+
+    .footer-copyright a {
+      color: #888888;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .footer-copyright a:hover {
+      color: #0066cc;
+      text-decoration: underline;
+    }
+
+    /* 返回链接 */
+    .back-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: #888888;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-bottom: 1px dashed #dddddd;
+      padding-bottom: 2px;
+      transition: 0.15s;
+    }
+
+    .back-link:hover {
+      color: #0066cc;
+      border-bottom-color: #0066cc;
+    }
+
+    /* 响应式 */
+    @media (max-width: 480px) {
+      .ending-container { padding: 20px 12px; }
+      .ending-text { font-size: clamp(1.8rem, 10vw, 3rem); }
+      .divider { width: 60px; margin: 20px auto; }
+    }
+
+    @media (max-width: 380px) {
+      .ending-text { font-size: clamp(1.4rem, 8vw, 2.2rem); }
+    }
+
+    /* 淡入动画 */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+  </style>
+</head>
+<body>
+
+<div class="ending-container fade-in">
+  <!-- 主文字 -->
+  <div class="ending-text">
+    <span class="line">感谢游玩 · 恭喜通关</span>
+    <span class="line">解锁结局：你和我</span>
+    <span class="line">其实你才是市长，你也没死</span>
+  </div>
+
+  <!-- 装饰分隔线 -->
+  <div class="divider"></div>
+
+  <!-- 结局标识 -->
+  <div class="badge-end">💠 结局代码：END2</div>
+
+  <!-- 返回链接 -->
+  <div style="margin-top: 12px;">
+    <a href="0101.html" class="back-link">← 返回·主页</a>
+  </div>
+
+  <!-- 底部版权 -->
+  <div class="footer-copyright">
+    【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+  </div>
+</div>
+
+</body>
+</html>

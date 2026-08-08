@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>水家海鲜 · 经理何前程离世</title>
+  <style>
+    /* 全局重置 & 字体 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Georgia, serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+      background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(60, 20, 20, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 50%, rgba(30, 10, 10, 0.2) 0%, transparent 70%);
+    }
+
+    /* ===== 新闻卡片 ===== */
+    .news-card {
+      max-width: 780px;
+      width: 100%;
+      background: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 60px rgba(100, 20, 20, 0.15), 0 0 120px rgba(50, 0, 0, 0.05);
+      padding: 40px 44px 36px;
+      border: 1px solid #2a2a2a;
+      transition: all 0.2s;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 微恐怖装饰 */
+    .news-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(80, 20, 20, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(60, 15, 15, 0.04) 0%, transparent 40%);
+      pointer-events: none;
+      border-radius: inherit;
+      z-index: 0;
+    }
+
+    .news-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 新闻头部 ===== */
+    .news-header {
+      border-bottom: 2px solid #2a2a2a;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .news-source {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #6a6a6a;
+      margin-bottom: 10px;
+    }
+
+    .news-source .source-name {
+      background: #4a1a1a;
+      color: #cc9999;
+      padding: 2px 16px;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      border: 1px solid #5a2a2a;
+    }
+
+    .news-source .date {
+      background: #1a1a1a;
+      color: #6a6a6a;
+      padding: 2px 16px;
+      border-radius: 30px;
+      border: 1px solid #2a2a2a;
+    }
+
+    .news-title {
+      font-size: 2.0rem;
+      font-weight: 700;
+      color: #e8d8d0;
+      line-height: 1.3;
+      letter-spacing: 1px;
+      margin-top: 4px;
+      text-shadow: 0 0 20px rgba(150, 50, 50, 0.1);
+    }
+
+    /* ===== 新闻正文 ===== */
+    .news-body {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #b0a8a0;
+      flex: 1;
+    }
+
+    .news-body p {
+      margin-bottom: 18px;
+      text-indent: 2em;
+    }
+
+    .news-body .highlight {
+      background: rgba(100, 30, 30, 0.2);
+      padding: 0 4px;
+      border-radius: 4px;
+      color: #cc8888;
+      font-weight: 500;
+    }
+
+    .news-body .glitch {
+      color: #aa5555;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(170, 85, 85, 0.2);
+    }
+
+    /* ===== 底部结局区域 ===== */
+    .ending-area {
+      margin-top: 40px;
+      padding: 30px 20px 20px;
+      text-align: center;
+      border-top: 2px solid #2a2a2a;
+      position: relative;
+    }
+
+    .ending-area .ending-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #cc8888;
+      letter-spacing: 4px;
+      text-shadow: 0 0 40px rgba(200, 100, 100, 0.15);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .ending-area .ending-sub {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #8a5a5a;
+      letter-spacing: 6px;
+      text-shadow: 0 0 20px rgba(150, 80, 80, 0.1);
+    }
+
+    .ending-area .badge-end {
+      display: inline-block;
+      margin-top: 12px;
+      background: #2a1a1a;
+      border: 1px solid #4a2a2a;
+      color: #8a5a5a;
+      padding: 4px 24px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+    }
+
+    /* ===== 底部版权 ===== */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #3a3a3a;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 14px;
+      margin-top: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-copyright a {
+      color: #4a4a4a;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .footer-copyright a:hover {
+      color: #6a6a6a;
+    }
+
+    /* ===== 返回链接 ===== */
+    .back-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #4a4a4a;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-bottom: 1px dashed #2a2a2a;
+      padding-bottom: 2px;
+      transition: 0.15s;
+    }
+
+    .back-link:hover {
+      color: #6a6a6a;
+      border-bottom-color: #4a4a4a;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 600px) {
+      .news-card { padding: 28px 20px 28px; }
+      .news-title { font-size: 1.5rem; }
+      .news-body { font-size: 0.98rem; }
+      .news-source { font-size: 0.75rem; }
+      .ending-area .ending-title { font-size: 2.0rem; }
+      .ending-area .ending-sub { font-size: 1.2rem; }
+    }
+
+    @media (max-width: 400px) {
+      .news-card { padding: 20px 14px 24px; }
+      .news-title { font-size: 1.2rem; }
+      .news-body { font-size: 0.92rem; }
+      .ending-area .ending-title { font-size: 1.6rem; }
+      .ending-area .ending-sub { font-size: 1.0rem; }
+    }
+
+    /* ===== 微恐怖脉冲 ===== */
+    @keyframes pulseDark {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .pulse-text {
+      animation: pulseDark 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+<div class="news-card">
+  <!-- ===== 新闻头部 ===== -->
+  <div class="news-header">
+    <div class="news-source">
+      <span class="source-name">🦞 水家海鲜 · 内部快讯</span>
+      <span class="date" id="newsDate">加载中...</span>
+    </div>
+    <h1 class="news-title pulse-text">水家海鲜经理何前程<br>突然离世</h1>
+  </div>
+
+  <!-- ===== 新闻正文 ===== -->
+  <div class="news-body">
+    <p><strong>【水家海鲜·独家】</strong> 水家海鲜岳东街门店经理 <span class="glitch">何前程</span> 于今日凌晨被发现在其办公室内离世，死因尚不明确。</p>
+
+    <p>据现场目击员工描述，凌晨1时左右，办公室内传出异常声响。店员推门后发现何经理倒卧在地，周围散落着大量 <span class="highlight">海鲜残骸</span>，空气中弥漫着浓烈的腥味。</p>
+
+    <p>警方已介入调查，初步勘查显示门窗完好，无外力入侵痕迹。但令人费解的是，办公室内的监控录像在事发时段出现 <span class="highlight">长达23分钟的雪花屏</span>，恢复后画面中仅可见何经理独自一人在办公室内踱步。</p>
+
+    <p>水家海鲜总部对此事保持沉默，仅表示“正在配合调查”。有员工透露，何经理在事发前一周曾多次提到“感觉被什么东西盯上了”，并频繁检查办公室角落。</p>
+
+    <p>目前，水家海鲜岳东街门店已暂停营业，具体恢复时间待定。关于此案的更多细节，本报将持续追踪报道。</p>
+
+    <p style="text-align: right; color: #4a4a4a; font-style: italic; margin-top: 24px; text-indent: 0;">—— 记者 唐小鲤 发自现场</p>
+  </div>
+
+  <!-- ===== 底部结局区域 ===== -->
+  <div class="ending-area">
+    <div class="ending-title">感谢游玩 · 恭喜通关</div>
+    <div class="ending-sub">已达成：BAD END</div>
+    <div class="badge-end">💀 结局代码：END1</div>
+  </div>
+
+  <!-- ===== 底部 ===== -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 16px;">
+    <a href="0101.html" class="back-link">← 返回·主页</a>
+    <div class="footer-copyright">
+      【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ===== 显示当前日期 =====
+    const dateEl = document.getElementById('newsDate');
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    const weekday = weekdays[now.getDay()];
+    dateEl.textContent = `${year}年${month}月${day}日 ${weekday}`;
+
+    console.log('🦞 水家海鲜 · 新闻页面已加载');
+    console.log('💀 结局：BAD END · 感谢游玩');
+  })();
+</script>
+
+</body>
+</html>

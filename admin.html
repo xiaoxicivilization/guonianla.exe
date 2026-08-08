@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>水家海鲜 · 店长员工内部登录</title>
+  <style>
+    /* 全局重置 & 字体 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Roboto, sans-serif;
+    }
+
+    body {
+      background: #0b1a2b;
+      background-image: radial-gradient(circle at 20% 30%, #1a405a, #06101b);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    /* ===== 登录卡片 ===== */
+    .login-card {
+      max-width: 440px;
+      width: 100%;
+      background: linear-gradient(145deg, #fefcf5, #f6f2e8);
+      border-radius: 60px 60px 40px 40px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.8), 0 0 0 2px #d9c9a8 inset, 0 0 0 4px #bea884 inset;
+      padding: 40px 36px 44px;
+      position: relative;
+      transition: 0.25s ease;
+      text-align: center;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(45deg, rgba(200,180,150,0.03) 0px, rgba(200,180,150,0.03) 8px, transparent 8px, transparent 16px);
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* ===== 标题区 ===== */
+    .login-header {
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-header .brand-icon {
+      font-size: 3.2rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .login-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0e2c44;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #b53b1c, #d45a2a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .login-header .sub {
+      font-size: 0.9rem;
+      color: #4f6b7c;
+      background: rgba(255,255,240,0.6);
+      display: inline-block;
+      padding: 4px 24px;
+      border-radius: 60px;
+      border: 1px solid #c6b69a;
+      margin-top: 4px;
+    }
+
+    /* ===== 登录表单 ===== */
+    .login-form {
+      position: relative;
+      z-index: 2;
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1d3e58;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 18px;
+      border: 2px solid #d4c9b8;
+      border-radius: 30px;
+      font-size: 1rem;
+      background: #fcf8f0;
+      transition: 0.2s;
+      outline: none;
+      color: #1d3e58;
+    }
+
+    .form-group input:focus {
+      border-color: #b84a2a;
+      box-shadow: 0 0 0 4px rgba(184, 74, 42, 0.15);
+      background: #ffffff;
+    }
+
+    .form-group input::placeholder {
+      color: #a89a88;
+    }
+
+    /* ===== 登录按钮 ===== */
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1d3e58;
+      color: #f5ede0;
+      border: none;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      letter-spacing: 2px;
+      margin-top: 6px;
+      border: 1px solid #2a4a66;
+    }
+
+    .login-btn:hover {
+      background: #b3411d;
+      border-color: #8f0018;
+      transform: scale(0.98);
+    }
+
+    .login-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ===== 错误/提示信息 ===== */
+    .message-area {
+      margin-top: 16px;
+      min-height: 28px;
+      font-size: 0.9rem;
+      color: #b3411d;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .message-area.success {
+      color: #1d7a3e;
+    }
+
+    /* ===== 底部返回链接 ===== */
+    .back-link {
+      display: inline-block;
+      margin-top: 22px;
+      font-size: 0.85rem;
+      color: #4f6b7c;
+      text-decoration: none;
+      border-bottom: 1px dashed #c6b69a;
+      padding-bottom: 2px;
+      transition: 0.15s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .back-link:hover {
+      color: #b3411d;
+      border-bottom-color: #b3411d;
+    }
+
+    /* ===== 版权信息 ===== */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #889fb3;
+      border-top: 1px solid #d4c9b8;
+      padding-top: 14px;
+      margin-top: 20px;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-copyright a {
+      color: #1f4a72;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .footer-copyright a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 480px) {
+      .login-card { padding: 30px 20px 34px; }
+      .login-header h1 { font-size: 1.4rem; }
+      .form-group input { padding: 10px 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="login-card">
+  <!-- ===== 标题 ===== -->
+  <div class="login-header">
+    <span class="brand-icon">🦞</span>
+    <h1>水家海鲜</h1>
+    <div class="sub">🔐 店长员工内部登录</div>
+  </div>
+
+  <!-- ===== 登录表单 ===== -->
+  <form class="login-form" id="loginForm" onsubmit="return handleLogin(event)">
+    <div class="form-group">
+      <label for="username">👤 用户名</label>
+      <input type="text" id="username" placeholder="请输入用户名" required autofocus>
+    </div>
+
+    <div class="form-group">
+      <label for="password">🔒 密码</label>
+      <input type="password" id="password" placeholder="请输入密码" required>
+    </div>
+
+    <button type="submit" class="login-btn">登 录</button>
+
+    <div class="message-area" id="messageArea"></div>
+  </form>
+
+  <!-- ===== 返回链接 ===== -->
+  <a href="0101.html" class="back-link">← 返回·主页</a>
+
+  <!-- ===== 版权信息 ===== -->
+  <div class="footer-copyright">
+    【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+  </div>
+</div>
+
+<script>
+  /**
+   * 水家海鲜 · 内部登录验证
+   * 仅保留专用管理账号：HEQIANCHENG11 / 11HQCJL12！ → 跳转 adminguanli.html
+   */
+  const SPECIAL_USER = 'HEQIANCHENG11';
+  const SPECIAL_PASS = '11HQCJL12！';
+  const SPECIAL_REDIRECT = 'adminguanli.html';
+
+  function handleLogin(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const messageEl = document.getElementById('messageArea');
+
+    messageEl.classList.remove('success');
+
+    // 检查是否为空
+    if (!username || !password) {
+      messageEl.textContent = '⚠️ 请输入用户名和密码';
+      return false;
+    }
+
+    // ---- 唯一管理账号验证 ----
+    if (username === SPECIAL_USER && password === SPECIAL_PASS) {
+      messageEl.textContent = '✅ 管理员验证通过，正在跳转...';
+      messageEl.classList.add('success');
+      // 跳转到管理后台
+      window.location.href = SPECIAL_REDIRECT;
+      return false;
+    } else {
+      messageEl.textContent = '❌ 用户名或密码错误，请重试';
+      messageEl.classList.remove('success');
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+      return false;
+    }
+  }
+
+  // 按回车键自动触发登录
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const form = document.getElementById('loginForm');
+      if (form) {
+        form.dispatchEvent(new Event('submit'));
+      }
+    }
+  });
+
+  console.log('🦞 水家海鲜 · 内部登录系统已加载');
+  console.log('📌 管理账号: HEQIANCHENG11 / 11HQCJL12！ → adminguanli.html');
+</script>
+</body>
+</html>

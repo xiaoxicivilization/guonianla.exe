@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>水家海鲜 · 经理离奇死亡</title>
+  <style>
+    /* 全局重置 & 字体 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Georgia, serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+      background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(60, 20, 20, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 50%, rgba(30, 10, 10, 0.2) 0%, transparent 70%);
+    }
+
+    /* ===== 新闻卡片 ===== */
+    .news-card {
+      max-width: 780px;
+      width: 100%;
+      background: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 60px rgba(100, 20, 20, 0.15), 0 0 120px rgba(50, 0, 0, 0.05);
+      padding: 40px 44px 36px;
+      border: 1px solid #2a2a2a;
+      transition: all 0.2s;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* 微恐怖装饰 — 血迹/暗纹 */
+    .news-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(80, 20, 20, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(60, 15, 15, 0.04) 0%, transparent 40%);
+      pointer-events: none;
+      border-radius: inherit;
+      z-index: 0;
+    }
+
+    .news-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 新闻头部 ===== */
+    .news-header {
+      border-bottom: 2px solid #2a2a2a;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .news-source {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #6a6a6a;
+      margin-bottom: 10px;
+    }
+
+    .news-source .source-name {
+      background: #4a1a1a;
+      color: #cc9999;
+      padding: 2px 16px;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      border: 1px solid #5a2a2a;
+    }
+
+    .news-source .date {
+      background: #1a1a1a;
+      color: #6a6a6a;
+      padding: 2px 16px;
+      border-radius: 30px;
+      border: 1px solid #2a2a2a;
+    }
+
+    .news-title {
+      font-size: 2.0rem;
+      font-weight: 700;
+      color: #e8d8d0;
+      line-height: 1.3;
+      letter-spacing: 1px;
+      margin-top: 4px;
+      text-shadow: 0 0 20px rgba(150, 50, 50, 0.1);
+    }
+
+    /* ===== 新闻正文 ===== */
+    .news-body {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #b0a8a0;
+    }
+
+    .news-body p {
+      margin-bottom: 18px;
+      text-indent: 2em;
+    }
+
+    .news-body .highlight {
+      background: rgba(100, 30, 30, 0.2);
+      padding: 0 4px;
+      border-radius: 4px;
+      color: #cc8888;
+      font-weight: 500;
+    }
+
+    .news-body .glitch {
+      color: #aa5555;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(170, 85, 85, 0.2);
+    }
+
+    /* ===== 底部触发区域 ===== */
+    .trigger-area {
+      margin-top: 40px;
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px dashed #2a2a2a;
+      color: #4a4a4a;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .trigger-area .skull {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 8px;
+      opacity: 0.3;
+      transition: 0.3s;
+    }
+
+    .trigger-area:hover .skull {
+      opacity: 0.6;
+    }
+
+    .trigger-area .hint {
+      color: #3a3a3a;
+      font-size: 0.75rem;
+    }
+
+    /* ===== 底部版权 ===== */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #3a3a3a;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 14px;
+      margin-top: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-copyright a {
+      color: #4a4a4a;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .footer-copyright a:hover {
+      color: #6a6a6a;
+    }
+
+    /* ===== 返回链接 ===== */
+    .back-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #4a4a4a;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-bottom: 1px dashed #2a2a2a;
+      padding-bottom: 2px;
+      transition: 0.15s;
+    }
+
+    .back-link:hover {
+      color: #6a6a6a;
+      border-bottom-color: #4a4a4a;
+    }
+
+    /* ===== 滚动触发跳转（通过JS监控） ===== */
+    .scroll-sentinel {
+      height: 1px;
+      width: 100%;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 600px) {
+      .news-card { padding: 28px 20px 28px; }
+      .news-title { font-size: 1.5rem; }
+      .news-body { font-size: 0.98rem; }
+      .news-source { font-size: 0.75rem; }
+    }
+
+    @media (max-width: 400px) {
+      .news-card { padding: 20px 14px 24px; }
+      .news-title { font-size: 1.2rem; }
+      .news-body { font-size: 0.92rem; }
+    }
+
+    /* ===== 微恐怖脉冲动画 ===== */
+    @keyframes pulseDark {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .pulse-text {
+      animation: pulseDark 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+<div class="news-card" id="newsCard">
+  <!-- ===== 新闻头部 ===== -->
+  <div class="news-header">
+    <div class="news-source">
+      <span class="source-name">🦞 水家海鲜 · 内部快讯</span>
+      <span class="date">2026年99月99日 星期热热热</span>
+    </div>
+    <h1 class="news-title pulse-text">水家海鲜经理叶知秋<br>离奇死亡</h1>
+  </div>
+
+  <!-- ===== 新闻正文 ===== -->
+  <div class="news-body">
+    <p><strong>【水家海鲜·独家】</strong> 水家海鲜岳东街门店经理 <span class="glitch">叶知秋</span> 于2026年9月8日晚间被发现在其办公室内死亡，死因尚不明确。</p>
+
+    <p>据现场目击员工描述，当晚22时左右，办公室内传出异常声响。店员推门后发现叶经理倒卧在地，周围散落着大量 <span class="highlight">海鲜残骸</span>，空气中弥漫着浓烈的腥味。</p>
+
+    <p>警方已介入调查，初步勘查显示门窗完好，无外力入侵痕迹。但令人费解的是，办公室内的监控录像在事发时段出现 <span class="highlight">长达17分钟的雪花屏</span>，恢复后画面中仅可见叶经理独自一人在办公室内踱步。</p>
+
+    <p>水家海鲜总部对此事保持沉默，仅表示“正在配合调查”。有员工透露，叶经理在事发前一周曾多次提到“感觉被什么东西盯上了”，并频繁检查办公室角落。</p>
+
+    <p>目前，水家海鲜岳东街门店已暂停营业，具体恢复时间待定。关于此案的更多细节，本报将持续追踪报道。</p>
+
+    <p style="text-align: right; color: #4a4a4a; font-style: italic; margin-top: 24px; text-indent: 0;">—— 资源传媒 发自现场</p>
+  </div>
+
+  <!-- ===== 底部触发区域（滚动到底部触发跳转） ===== -->
+  <div class="trigger-area" id="triggerArea">
+    <span class="skull">💀</span>
+    <div style="color: #3a3a3a; font-size: 0.8rem;">继续往下滚动...</div>
+    <div class="hint">▼</div>
+  </div>
+
+  <!-- ===== 滚动哨兵（用于检测是否到底） ===== -->
+  <div class="scroll-sentinel" id="scrollSentinel"></div>
+
+  <!-- ===== 底部 ===== -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 16px;">
+    <a href="0101.html" class="back-link">← 返回·主页</a>
+    <div class="footer-copyright">
+      【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ===== 滚动到底部跳转 =====
+    const sentinel = document.getElementById('scrollSentinel');
+    const triggerArea = document.getElementById('triggerArea');
+    let hasJumped = false;
+
+    // 使用 IntersectionObserver 检测哨兵元素是否进入视口
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // 当哨兵元素进入视口（即用户滚动到了页面底部附近）
+        if (entry.isIntersecting && !hasJumped) {
+          hasJumped = true;
+          
+          // 微恐怖反馈：闪烁一下
+          triggerArea.style.transition = '0.2s';
+          triggerArea.style.color = '#aa4444';
+          triggerArea.querySelector('.skull').style.opacity = '1';
+          triggerArea.querySelector('.skull').style.transform = 'scale(1.2)';
+          
+          // 延迟跳转，营造恐怖感
+          setTimeout(() => {
+            window.location.href = 'nishishei.html';
+          }, 800);
+        }
+      });
+    }, {
+      // 当哨兵元素完全进入视口时触发
+      threshold: 0.1,
+      // 稍微提前触发，让用户在页面最底部时跳转
+      rootMargin: '0px 0px -10px 0px'
+    });
+
+    // 开始观察哨兵元素
+    observer.observe(sentinel);
+
+    // ===== 额外的滚动监听（备用方案，以防 IntersectionObserver 不触发） =====
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', function() {
+      if (hasJumped) return;
+      
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // 如果滚动到了几乎底部（距离底部小于 50px）
+      if (scrollY + windowHeight >= documentHeight - 50) {
+        hasJumped = true;
+        
+        triggerArea.style.transition = '0.2s';
+        triggerArea.style.color = '#aa4444';
+        const skull = triggerArea.querySelector('.skull');
+        if (skull) {
+          skull.style.opacity = '1';
+          skull.style.transform = 'scale(1.2)';
+        }
+        
+        setTimeout(() => {
+          window.location.href = 'nishishei.html';
+        }, 800);
+      }
+    });
+
+    console.log('🦞 水家海鲜 · 新闻页面已加载');
+    console.log('💀 滚动到底部将跳转到 nishishei.html');
+  })();
+</script>
+
+</body>
+</html>

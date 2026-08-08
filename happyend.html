@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔐 密码 · 摩斯谜题</title>
+  <style>
+    /* 全局重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+
+    /* 主卡片 — 纯黑，与背景融合 */
+    .stage {
+      max-width: 700px;
+      width: 100%;
+      background: #000000;
+      border-radius: 48px 48px 32px 32px;
+      padding: 48px 40px 56px;
+      box-shadow: none;
+      text-align: center;
+      position: relative;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 摩斯密码显示 */
+    .morse-display {
+      font-size: 4.2rem;
+      font-weight: 700;
+      color: #f0ece4;
+      letter-spacing: 14px;
+      text-shadow: 0 0 40px rgba(255,255,240,0.05);
+      margin-bottom: 32px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* 输入框区域 */
+    .input-area {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .input-area input {
+      width: 100%;
+      padding: 14px 20px;
+      border: 2px solid #2a2a2a;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      background: #0a0a0a;
+      color: #f0ece4;
+      outline: none;
+      transition: 0.2s;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .input-area input:focus {
+      border-color: #b3411d;
+      box-shadow: 0 0 20px rgba(179, 65, 29, 0.15);
+    }
+
+    .input-area input::placeholder {
+      color: #4a4a4a;
+      letter-spacing: 1px;
+    }
+
+    .input-area .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1d3e58;
+      color: #f5ede0;
+      border: none;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      letter-spacing: 2px;
+      border: 1px solid #2a4a66;
+    }
+
+    .input-area .submit-btn:hover {
+      background: #b3411d;
+      border-color: #8f0018;
+      transform: scale(0.97);
+    }
+
+    /* 提示信息 */
+    .message-area {
+      min-height: 28px;
+      font-size: 0.9rem;
+      color: #b3411d;
+      text-align: center;
+      transition: 0.2s;
+      margin-top: 4px;
+    }
+
+    .message-area.success {
+      color: #1d7a3e;
+    }
+
+    /* 响应式 */
+    @media (max-width: 480px) {
+      .stage { padding: 36px 24px 48px; min-height: 240px; }
+      .morse-display { font-size: 3.2rem; letter-spacing: 8px; }
+      .input-area { max-width: 100%; }
+      .input-area input { font-size: 1rem; padding: 12px 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .morse-display { font-size: 2.6rem; letter-spacing: 6px; }
+      .stage { padding: 28px 16px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stage">
+  <!-- 摩斯密码谜题 -->
+  <div class="morse-display">.. .... -.--</div>
+
+  <!-- 输入框 -->
+  <div class="input-area">
+    <input type="text" id="passwordInput" placeholder="输入密码..." autocomplete="off" autofocus>
+    <button class="submit-btn" id="submitBtn">确 认</button>
+    <div class="message-area" id="messageArea"></div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const passwordInput = document.getElementById('passwordInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageArea = document.getElementById('messageArea');
+
+    let isWaitingForJump = false;
+
+    // ---- 正确答案列表（不区分大小写） ----
+    const correctPasswords = [
+      'ihy',
+      'ihateyou',
+      'i h y',
+      'i hate you'
+    ];
+
+    // ---- 跳转地址 ----
+    const SUCCESS_URL = '2end.html';
+    const FAIL_URL = '1end.html';
+
+    // ---- 检查密码是否匹配（不区分大小写，去除多余空格） ----
+    function isCorrect(input) {
+      const normalized = input.trim().replace(/\s+/g, ' ');
+      const lowerInput = normalized.toLowerCase();
+      return correctPasswords.some(p => p.toLowerCase() === lowerInput);
+    }
+
+    // ---- 处理提交 ----
+    function handleSubmit() {
+      if (isWaitingForJump) return;
+
+      const password = passwordInput.value;
+      if (password === '') {
+        messageArea.textContent = '⚠️ 请输入密码';
+        messageArea.classList.remove('success');
+        return;
+      }
+
+      if (isCorrect(password)) {
+        messageArea.textContent = '✅ 密码正确，正在跳转...';
+        messageArea.classList.add('success');
+        isWaitingForJump = true;
+        setTimeout(() => {
+          window.location.href = SUCCESS_URL;
+        }, 600);
+      } else {
+        messageArea.textContent = '❌ 密码错误，正在跳转...';
+        messageArea.classList.remove('success');
+        isWaitingForJump = true;
+        setTimeout(() => {
+          window.location.href = FAIL_URL;
+        }, 600);
+      }
+    }
+
+    // ---- 事件绑定 ----
+    submitBtn.addEventListener('click', handleSubmit);
+
+    passwordInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSubmit();
+      }
+    });
+
+    setTimeout(() => passwordInput.focus(), 200);
+
+    console.log('🔐 摩斯密码谜题已加载');
+    console.log('📌 摩斯密码: .. .... -.--  →  解出后输入对应密码');
+    console.log('📌 正确答案: ihy / ihateyou / i h y / i hate you');
+    console.log('📌 正确 → 2end.html  |  错误 → 1end.html');
+  })();
+</script>
+
+</body>
+</html>

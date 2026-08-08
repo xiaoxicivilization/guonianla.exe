@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦞 水家海鲜大放送！唐小鲤喊你来赴海天盛宴</title>
+  <style>
+    /* 全局重置 & 字体 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Roboto, sans-serif;
+    }
+
+    body {
+      background: #0b1a2b;
+      background-image: radial-gradient(circle at 20% 30%, #1a405a, #06101b);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    .feast-card {
+      max-width: 1000px;
+      width: 100%;
+      background: linear-gradient(145deg, #fefcf5, #f6f2e8);
+      border-radius: 60px 60px 40px 40px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.8), 0 0 0 2px #d9c9a8 inset, 0 0 0 4px #bea884 inset;
+      padding: 40px 38px 48px;
+      position: relative;
+      transition: 0.25s ease;
+    }
+
+    .feast-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(45deg, rgba(200,180,150,0.03) 0px, rgba(200,180,150,0.03) 8px, transparent 8px, transparent 16px);
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* ===== 来源信息（新增） ===== */
+    .source-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #d4c9b8;
+    }
+
+    .source-info .source-left {
+      font-size: 0.9rem;
+      color: #4f6b7c;
+      background: #eef3f9;
+      padding: 4px 18px;
+      border-radius: 30px;
+      border: 1px solid #d7e0ea;
+    }
+
+    .source-info .source-left strong {
+      color: #1d3e58;
+      font-weight: 600;
+    }
+
+    .source-info .source-right {
+      font-size: 0.8rem;
+      color: #7a8a9a;
+      background: #eef3f9;
+      padding: 2px 16px;
+      border-radius: 30px;
+    }
+
+    /* 新闻来源标识（保留原有） */
+    .news-badge {
+      display: inline-block;
+      background: #b1001e;
+      color: #fff;
+      padding: 4px 18px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      border: 1px solid #8f0018;
+    }
+
+    .hero-title {
+      text-align: center;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #0e2c44;
+      text-shadow: 4px 4px 0 #f0d5a8, 6px 6px 0 rgba(0,0,0,0.1);
+      letter-spacing: 2px;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #b53b1c, #d45a2a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+
+    .hero-title .sub-wave {
+      font-size: 1.1rem;
+      color: #4f6b7c;
+      background: rgba(255,255,240,0.6);
+      backdrop-filter: blur(2px);
+      display: inline-block;
+      padding: 6px 32px;
+      border-radius: 60px;
+      letter-spacing: 3px;
+      border: 1px solid #c6b69a;
+      font-weight: 400;
+      margin-top: 4px;
+    }
+
+    .invite-intro {
+      background: #dce8f0;
+      background: linear-gradient(120deg, #dce8f0, #e8f0f5);
+      border-left: 8px solid #b84a2a;
+      padding: 22px 28px;
+      border-radius: 30px 8px 30px 8px;
+      margin-bottom: 32px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #1c3346;
+      position: relative;
+      z-index: 2;
+    }
+
+    .invite-intro strong {
+      color: #b3411d;
+      font-weight: 700;
+    }
+
+    .invite-intro .highlight {
+      background: #f5dab3;
+      padding: 0 10px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+
+    .section-block {
+      background: rgba(255, 252, 245, 0.7);
+      backdrop-filter: blur(2px);
+      border-radius: 40px 12px 40px 12px;
+      padding: 26px 30px;
+      margin-bottom: 28px;
+      border: 1px solid #e2d4be;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      position: relative;
+      z-index: 2;
+      transition: 0.2s;
+    }
+
+    .section-block:hover {
+      background: rgba(255, 252, 245, 0.85);
+      border-color: #cbb594;
+    }
+
+    .section-title {
+      font-size: 2.0rem;
+      font-weight: 700;
+      color: #1d3e58;
+      border-bottom: 4px dotted #b87a5a;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-title span {
+      background: #1d3e58;
+      color: #f7efe0;
+      font-size: 1.2rem;
+      padding: 0 20px;
+      border-radius: 60px;
+      line-height: 1.8;
+    }
+
+    .content p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #2b4053;
+      margin-bottom: 16px;
+    }
+
+    .content .big-em {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #b84a2a;
+      letter-spacing: 1px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+      margin: 20px 0 10px;
+    }
+
+    .feature-item {
+      background: #f5ede0;
+      padding: 18px 14px;
+      border-radius: 60px 12px 60px 12px;
+      text-align: center;
+      border: 1px solid #ddcfb8;
+      font-weight: 500;
+      color: #1f3c52;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 0 #b7a68b;
+    }
+
+    .feature-item .emoji-big {
+      display: block;
+      font-size: 2.4rem;
+      margin-bottom: 6px;
+    }
+
+    .xiao-li-box {
+      background: #edddcb;
+      background: linear-gradient(135deg, #f4e8d8, #e6d4be);
+      border-radius: 60px 12px 60px 12px;
+      padding: 24px 30px;
+      border: 2px solid #c7a889;
+      position: relative;
+    }
+
+    .xiao-li-box::after {
+      content: '🐬';
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 4rem;
+      opacity: 0.15;
+      transform: rotate(-10deg);
+    }
+
+    .gift-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 30px;
+      margin: 16px 0 6px;
+    }
+
+    .gift-item {
+      background: #fcf8f0;
+      border-radius: 60px;
+      padding: 12px 24px 12px 20px;
+      border: 1px solid #d0bc9e;
+      flex: 1 1 200px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      color: #1f3a4f;
+      box-shadow: 0 3px 0 #b8a68b;
+    }
+
+    .gift-item .gift-emoji {
+      font-size: 1.8rem;
+    }
+
+    .address-box {
+      background: #1f3a4f;
+      color: #f5ede0;
+      border-radius: 60px 12px 60px 12px;
+      padding: 22px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      border: 2px solid #b68f6e;
+    }
+
+    .address-box .info {
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .address-box .info strong {
+      color: #f5d7a8;
+      font-weight: 600;
+    }
+
+    .address-box .hotline {
+      background: #b3411d;
+      padding: 8px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      border: 1px solid #e7b78a;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #6d7f8c;
+      border-top: 2px dashed #cbb594;
+      padding-top: 22px;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 返回按钮 */
+    .back-link {
+      display: inline-block;
+      margin-top: 18px;
+      background: #1d3e58;
+      color: #f5ede0;
+      padding: 8px 28px;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.15s;
+      border: 1px solid #b68f6e;
+    }
+
+    .back-link:hover {
+      background: #b3411d;
+      transform: scale(0.96);
+    }
+
+    /* 版权信息 */
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #889fb3;
+      border-top: 1px solid #d4c9b8;
+      padding-top: 14px;
+      margin-top: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-copyright a {
+      color: #1f4a72;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .footer-copyright a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 700px) {
+      .feast-card { padding: 30px 18px 32px; }
+      .hero-title h1 { font-size: 2.0rem; }
+      .section-title { font-size: 1.6rem; }
+      .address-box { flex-direction: column; gap: 14px; align-items: flex-start; }
+      .invite-intro { padding: 16px 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title h1 { font-size: 1.6rem; }
+      .section-block { padding: 18px 14px; }
+      .gift-item { flex: 1 1 100%; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+
+    .wave-decoration {
+      text-align: center;
+      font-size: 1.2rem;
+      letter-spacing: 10px;
+      color: #b0a58a;
+      margin: 6px 0 12px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+<div class="feast-card">
+  <!-- ===== 来源信息（新增，置于最上方） ===== -->
+  <div class="source-info">
+    <span class="source-left">📌 来源：<strong>市商务局</strong> · 水家海鲜</span>
+    <span class="source-right">📅 2024-12-28</span>
+  </div>
+
+  <!-- 新闻标识（保留） -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 6px;">
+    <span class="news-badge">📰 何东市 · 今日要闻</span>
+  </div>
+
+  <!-- 标题 -->
+  <div class="hero-title">
+    <h1>🦞 水家海鲜大放送！<br>唐小鲤喊你来赴一场“鲜”气十足的海天盛宴！🦀</h1>
+    <div class="sub-wave">🌊  ·  鲜 · 活 · 火 · 热  ·  🌊</div>
+  </div>
+
+  <!-- 导语 -->
+  <div class="invite-intro">
+    <p style="font-size:1.1rem; margin-bottom:6px;">
+      <strong>各位亲爱的吃货老饕、美食同好们：</strong>
+    </p>
+    <p>
+      注意啦！注意啦！那个让整条街都弥漫着海风鲜味、让无数味蕾为之倾倒的——<strong>水家海鲜</strong>，今天要搞！大！事！情！
+    </p>
+    <p style="margin-top:10px; background:#f5e3d0; padding:6px 18px; border-radius:60px; display:inline-block;">
+      <span class="highlight">我们不玩虚的，直接上硬菜！</span> 没错，<strong>水家海鲜请大家吃海鲜啦！</strong> 这不是演习，这不是套路，这是一场诚意满满、鲜掉眉毛的夏日狂欢！
+    </p>
+  </div>
+
+  <!-- 为什么是水家 -->
+  <div class="section-block">
+    <div class="section-title">
+      🌊 为什么是水家？ <span>因为我们懂“鲜”</span>
+    </div>
+    <div class="content">
+      <p><span class="big-em">在水家，我们坚信：海鲜，是会说话的。</span></p>
+      <div class="feature-grid">
+        <div class="feature-item"><span class="emoji-big">🦀</span> 帝王蟹 · 深海冷冽甘甜</div>
+        <div class="feature-item"><span class="emoji-big">🦐</span> 大虾 · 海浪活泼清甜</div>
+        <div class="feature-item"><span class="emoji-big">🦪</span> 生蚝 · 大海滋养柔情</div>
+      </div>
+      <p style="margin-top:16px;">
+        我们只做 <strong>“从海水到餐桌”</strong> 的极速鲜送。清晨还在海里遨游，傍晚就在你眼前“跳舞”。<br>
+        <span style="background: #1d3e58; color: #f5ede0; padding: 0 12px; border-radius: 30px;">不新鲜的，上不了水家的砧板；没脾气的，进不了水家的蒸锅。</span> 我们要的，就是那股子生猛劲儿！
+      </p>
+    </div>
+  </div>
+
+  <!-- 唐小鲤 -->
+  <div class="section-block xiao-li-box">
+    <div class="section-title" style="border-bottom-color:#b87a5a;">
+      🐬 灵魂人物出场：<span>我们的“鲜”锋大使——唐小鲤</span>
+    </div>
+    <div class="content">
+      <p>
+        说到这场海鲜盛宴，就不得不提我们水家最闪亮的明星员工——<strong style="color:#b3411d; font-size:1.2rem;">唐小鲤</strong>！
+      </p>
+      <p>
+        小鲤可不是普通的小姐姐，她就像是海里的锦鲤化身，自带一股灵动的 <strong>“鲜”气</strong>。她对海鲜的热爱，那不是工作，是刻在骨子里的信仰！
+      </p>
+      <p style="background: #fcf3e6; padding: 14px 20px; border-radius: 60px 12px 60px 12px; border-left: 6px solid #b84a2a;">
+        <em>“大家快来呀！”</em> 小鲤总是挂着最灿烂的笑容，一边利落地帮你挑选最生猛的海鲜，一边如数家珍地告诉你：<br>
+        “你看这只螃蟹，肚子白净，蟹钳有力，蒸出来绝对满黄流油！这只鲍鱼，还在扭动呢，一口下去，鲜到你舌头打颤！”
+      </p>
+      <p>
+        无论是帮新手小白推荐最适合的菜品，还是为老饕们定制隐藏菜单，唐小鲤总能凭借她专业的知识和火辣的热情，让每一位顾客都感受到水家的温度。<br>
+        <span style="display:inline-block; background:#b84a2a; color:#f5ede0; padding:4px 24px; border-radius:60px; margin-top:6px;">她常说：“来水家，别客气，小鲤帮你把大海搬上桌！”</span>
+      </p>
+      <p style="margin-top:10px; font-weight:500;">今天这场盛宴，小鲤更是亲手为大家准备了惊喜福利，就等你来撩！</p>
+    </div>
+  </div>
+
+  <!-- 福利 -->
+  <div class="section-block" style="background: #f7efe4;">
+    <div class="section-title">
+      🎁 水家请你吃海鲜！ <span>福利接住！</span>
+    </div>
+    <div class="content">
+      <p style="font-size:1.2rem; font-weight:600; color:#b84a2a;">为了回馈新老顾客的支持，今天水家海鲜 “宠粉无底线”：</p>
+      <div class="gift-list">
+        <div class="gift-item"><span class="gift-emoji">🐚</span> 进店有礼：每桌赠送 <strong>“招牌盐焗海螺”</strong> 一份</div>
+        <div class="gift-item"><span class="gift-emoji">🎰</span> 惊喜抽奖：消费满额参与 <strong>“锦鲤大转盘”</strong> 赢深海霸王宴</div>
+        <div class="gift-item"><span class="gift-emoji">🍹</span> 唐小鲤特调：报暗号 <strong>“我爱小鲤，我爱水家”</strong> 获赠“海风微醺”气泡水</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 地址 -->
+  <div class="address-box">
+    <div class="info">
+      <strong>📍 快来水家，我们等你！</strong><br>
+      地址：岳东街199号 &nbsp;|&nbsp; 营业时间：A.M.9:00 ~ P.M.11:00
+    </div>
+    <div class="hotline">
+      📞 31535358902
+    </div>
+  </div>
+
+  <!-- 结尾 -->
+  <div style="margin: 26px 0 12px; text-align: center; font-size: 1.2rem; line-height: 1.8; background: #dce8f0; padding: 18px 16px; border-radius: 60px; border: 2px solid #b8a388;">
+    <p style="font-weight:600; color:#1d3e58;">
+      这个夏天，水家海鲜就是你的第二片海洋！<br>
+      带上家人，约上朋友，来水家，找唐小鲤：
+    </p>
+    <p style="font-size:1.4rem; font-weight:700; color:#b3411d; letter-spacing:2px;">
+      撸起袖子，手撕螃蟹；端起杯子，畅饮海风；敞开肚子，吃他个酣畅淋漓！
+    </p>
+  </div>
+
+  <div style="text-align:center; font-size:1.1rem; color:#1f3a4f; background:#f5ede0; padding:10px; border-radius:60px; border:1px solid #d4bfa4;">
+    🌟 水家海鲜，不止是鲜，更是人情味的海。
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer-note">
+    <span style="background: #1d3e58; color: #f5ede0; padding: 0 20px; border-radius: 60px; display: inline-block; margin-bottom: 6px;">唐小鲤携全体水家伙伴，恭候您的光临</span><br>
+    <span style="opacity:0.6;">🦀 · 🦞 · 🦐 · 🦪 · 🐚</span>
+  </div>
+
+  <!-- 返回链接 -->
+  <div style="text-align: center; margin-top: 16px;">
+    <a href="0101.html" class="back-link">← 返回·主页</a>
+  </div>
+
+  <!-- 版权信息 -->
+  <div class="footer-copyright">
+    【版权】：本作品为小希初步作品，如有大佬点评，请访问 <a href="mailto:xiaoxiwenming@163.com">xiaoxiwenming@163.com</a>
+  </div>
+
+  <div class="wave-decoration">~ ~ ~ ~ ~ ~ ~ ~ ~</div>
+</div>
+</body>
+</html>

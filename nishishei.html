@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你·是·誰</title>
+  <style>
+    /* 全局重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0d0d0d;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+
+    /* 聊天卡片 — 仿微信深色模式 */
+    .chat-card {
+      max-width: 480px;
+      width: 100%;
+      background: #1a1a1a;
+      border-radius: 28px 28px 20px 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 0 1px #2a2a2a inset;
+      padding: 20px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      min-height: 600px;
+      max-height: 800px;
+      height: 90vh;
+      position: relative;
+    }
+
+    /* ===== 聊天头部 ===== */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #2a2a2a;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+
+    .chat-header .avatar {
+      width: 42px;
+      height: 42px;
+      background: #2a2a2a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border: 2px solid #3a3a3a;
+    }
+
+    .chat-header .info {
+      flex: 1;
+    }
+
+    .chat-header .info .name {
+      font-size: 1.0rem;
+      font-weight: 600;
+      color: #e8e0d8;
+    }
+
+    .chat-header .info .status {
+      font-size: 0.7rem;
+      color: #4a4a4a;
+      letter-spacing: 0.5px;
+    }
+
+    .chat-header .close-btn {
+      color: #4a4a4a;
+      font-size: 1.2rem;
+      cursor: default;
+    }
+
+    /* ===== 消息区域 ===== */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+      min-height: 200px;
+    }
+
+    /* 消息气泡 */
+    .message {
+      max-width: 82%;
+      padding: 10px 16px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .message-left {
+      align-self: flex-start;
+      background: #2a2a2a;
+      color: #d0c8c0;
+      border-bottom-left-radius: 6px;
+      border: 1px solid #333;
+    }
+
+    .message-right {
+      align-self: flex-end;
+      background: #1a4a6a;
+      color: #f0ece4;
+      border-bottom-right-radius: 6px;
+      border: 1px solid #2a5a7a;
+    }
+
+    .message-system {
+      align-self: center;
+      background: #1a1a1a;
+      color: #4a4a4a;
+      font-size: 0.75rem;
+      padding: 4px 16px;
+      border-radius: 30px;
+      border: 1px solid #2a2a2a;
+      max-width: 90%;
+    }
+
+    /* 打字指示器 */
+    .typing-indicator {
+      align-self: flex-start;
+      background: #2a2a2a;
+      padding: 10px 18px;
+      border-radius: 16px;
+      border-bottom-left-radius: 6px;
+      border: 1px solid #333;
+      display: none;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .typing-indicator .dot {
+      width: 8px;
+      height: 8px;
+      background: #6a6a6a;
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite ease-in-out;
+    }
+
+    .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-8px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== 输入区域 ===== */
+    .chat-input-area {
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #2a2a2a;
+      padding-top: 14px;
+      flex-shrink: 0;
+      align-items: center;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 24px;
+      border: 1px solid #2a2a2a;
+      background: #0d0d0d;
+      color: #e8e0d8;
+      font-size: 0.95rem;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .chat-input-area input:focus {
+      border-color: #1a4a6a;
+      box-shadow: 0 0 20px rgba(26, 74, 106, 0.1);
+    }
+
+    .chat-input-area input::placeholder {
+      color: #4a4a4a;
+    }
+
+    .chat-input-area .send-btn {
+      background: #1a4a6a;
+      border: none;
+      color: #f0ece4;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #2a5a7a;
+      white-space: nowrap;
+    }
+
+    .chat-input-area .send-btn:hover {
+      background: #2a5a7a;
+      transform: scale(0.97);
+    }
+
+    .chat-input-area .send-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 480px) {
+      .chat-card { padding: 16px 14px 20px; border-radius: 20px; height: 95vh; }
+      .message { font-size: 0.9rem; padding: 8px 14px; }
+      .chat-header .info .name { font-size: 0.9rem; }
+      .chat-input-area input { font-size: 0.85rem; padding: 8px 14px; }
+      .chat-input-area .send-btn { padding: 8px 16px; font-size: 0.8rem; }
+    }
+
+    @media (max-width: 380px) {
+      .chat-card { padding: 12px 10px 16px; }
+      .message { font-size: 0.82rem; padding: 6px 12px; }
+    }
+
+    /* ===== 滚动条美化 ===== */
+    .chat-messages::-webkit-scrollbar {
+      width: 4px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #3a3a3a;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-card" id="chatCard">
+  <!-- ===== 聊天头部 ===== -->
+  <div class="chat-header">
+    <div class="avatar">🦞</div>
+    <div class="info">
+      <div class="name">水家海鲜 · 程静言</div>
+      <div class="status">在线 · 对方正在输入...</div>
+    </div>
+    <div class="close-btn">⋯</div>
+  </div>
+
+  <!-- ===== 消息区域 ===== -->
+  <div class="chat-messages" id="chatMessages">
+    <!-- 消息由 JS 动态渲染 -->
+  </div>
+
+  <!-- ===== 输入区域 ===== -->
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="输入消息..." autocomplete="off">
+    <button class="send-btn" id="sendBtn">发送</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ===== DOM 引用 =====
+    const messagesEl = document.getElementById('chatMessages');
+    const inputEl = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // ===== 状态 =====
+    let isWaitingForReply = false;        // 是否在等待自动回复（防止重复触发）
+    let stepIndex = 0;                   // 当前对话步骤
+    let isNameVerified = false;          // 是否已通过姓名验证
+    let isProcessing = false;            // 防止并发
+
+    // ===== 对话流程 =====
+    // 步骤定义
+    const STEPS = {
+      INIT: 0,          // 初始：显示 "你是谁"
+      WAIT_NAME: 1,     // 等待用户输入名字
+      NAME_OK: 2,       // 名字正确，显示 "为什么"
+      REASON: 3,        // 显示程静言回复
+      ACCOUNT: 4,       // 显示账号
+      PASSWORD: 5       // 显示密码
+    };
+
+    // ===== 添加消息 =====
+    function addMessage(text, type = 'left') {
+      const div = document.createElement('div');
+      div.className = `message message-${type}`;
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      // 滚动到底部
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // ===== 添加系统消息 =====
+    function addSystemMessage(text) {
+      const div = document.createElement('div');
+      div.className = 'message message-system';
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // ===== 显示打字指示器 =====
+    function showTyping(show) {
+      let indicator = document.querySelector('.typing-indicator');
+      if (show) {
+        if (!indicator) {
+          indicator = document.createElement('div');
+          indicator.className = 'typing-indicator';
+          for (let i = 0; i < 3; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            indicator.appendChild(dot);
+          }
+          messagesEl.appendChild(indicator);
+        }
+        indicator.style.display = 'flex';
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      } else {
+        if (indicator) {
+          indicator.style.display = 'none';
+        }
+      }
+    }
+
+    // ===== 清空输入框 =====
+    function clearInput() {
+      inputEl.value = '';
+    }
+
+    // ===== 禁用/启用输入 =====
+    function setInputEnabled(enabled) {
+      inputEl.disabled = !enabled;
+      sendBtn.disabled = !enabled;
+      if (enabled) {
+        inputEl.focus();
+      }
+    }
+
+    // ===== 核心：处理用户输入 =====
+    function handleUserInput(inputText) {
+      if (isProcessing || isWaitingForReply) return;
+      if (!inputText || inputText.trim() === '') return;
+
+      const trimmed = inputText.trim();
+
+      // ---- 阶段1：等待输入姓名 ----
+      if (stepIndex === STEPS.WAIT_NAME) {
+        isProcessing = true;
+
+        // 显示用户消息（右侧）
+        addMessage(trimmed, 'right');
+
+        // 验证姓名
+        if (trimmed === '何前程') {
+          isNameVerified = true;
+          // 显示 "为什么"（自动发送）
+          setTimeout(() => {
+            addMessage('为什么', 'right');
+            // 继续下一步
+            stepIndex = STEPS.REASON;
+            proceedToReason();
+          }, 400);
+        } else {
+          // 姓名错误 → 跳转 nishishei1.html
+          addSystemMessage('❌ 身份验证失败，正在跳转...');
+          setInputEnabled(false);
+          setTimeout(() => {
+            window.location.href = 'nishishei1.html';
+          }, 800);
+        }
+        return;
+      }
+
+      // ---- 其他阶段不再接受用户输入（自动流程） ----
+      // 但为防止用户乱输入，直接忽略
+    }
+
+    // ===== 自动流程：显示 "为什么" 后的回复 =====
+    function proceedToReason() {
+      isWaitingForReply = true;
+      setInputEnabled(false);
+
+      // 显示打字效果
+      showTyping(true);
+
+      // 间隔5秒显示程静言回复
+      setTimeout(() => {
+        showTyping(false);
+        addMessage('我不知道，但是我现在不是员工', 'left');
+
+        // 间隔5秒显示账号
+        setTimeout(() => {
+          showTyping(true);
+          setTimeout(() => {
+            showTyping(false);
+            addMessage('我的账号叫：HEQIANCHENG11', 'left');
+
+            // 间隔5秒显示密码
+            setTimeout(() => {
+              showTyping(true);
+              setTimeout(() => {
+                showTyping(false);
+                addMessage('密码：11HQCJL12！', 'left');
+                // 流程结束，锁定输入
+                setInputEnabled(false);
+                addSystemMessage('🔒 对话已结束');
+                isWaitingForReply = false;
+              }, 800);
+            }, 5000);
+          }, 800);
+        }, 5000);
+      }, 5000);
+    }
+
+    // ===== 初始化对话 =====
+    function initChat() {
+      // 清空消息
+      messagesEl.innerHTML = '';
+      // 显示初始消息 "你是谁"
+      addMessage('你是谁', 'left');
+      stepIndex = STEPS.WAIT_NAME;
+      setInputEnabled(true);
+      inputEl.focus();
+      isWaitingForReply = false;
+      isProcessing = false;
+      isNameVerified = false;
+
+      // 添加一个系统提示
+      addSystemMessage('💬 请输入你的姓名');
+    }
+
+    // ===== 事件绑定 =====
+    // 发送按钮
+    sendBtn.addEventListener('click', function() {
+      const val = inputEl.value;
+      if (val.trim() === '') return;
+      handleUserInput(val);
+      clearInput();
+    });
+
+    // 回车发送
+    inputEl.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = inputEl.value;
+        if (val.trim() === '') return;
+        handleUserInput(val);
+        clearInput();
+      }
+    });
+
+    // ===== 启动 =====
+    initChat();
+
+    // ===== 额外：如果点击聊天框自动输入并发送 "为什么"（特定场景） =====
+    // 这个需求是在 "如果点击聊天框自动输入并发送：为什么"
+    // 但只有在 "等待姓名" 阶段且用户还未输入时，点击聊天框触发 "为什么" 会导致验证失败（因为不是何前程）
+    // 所以这个功能需要谨慎：只有在姓名验证通过后才有效，但姓名验证通过后会自动发送 "为什么"
+    // 为了满足 "如果点击聊天框自动输入并发送：为什么"，我们可以在用户点击聊天框时，如果当前处于等待姓名阶段，自动填入 "何前程" 并发送
+    // 但这样会跳过用户输入，不符合 "输入框输入" 的交互。
+    // 更合理：用户点击聊天框时，自动填入 "何前程" 并发送，实现自动验证。
+    // 但需求原文："如果点击聊天框自动输入并发送：为什么" —— 这更像是一个彩蛋，但会导致验证失败（因为不是何前程）
+    // 所以根据需求，我们实现：点击聊天框自动输入并发送 "为什么" —— 但这会导致验证失败，跳转 nishishei1.html
+    // 但为了同时满足 "输入何前程继续"，我们保留输入框手动输入。
+
+    // 但需求说 "如果点击聊天框自动输入并发送：为什么" —— 这应该是另一个触发方式。
+    // 我们实现：点击聊天框（消息区域）自动在输入框填入 "为什么" 并发送（如果当前处于等待姓名阶段）
+    // 但这样会导致验证失败跳转。所以添加一个判断：如果当前处于等待姓名阶段，点击消息区域自动填入 "何前程" 并发送（因为需求也说 "输入何前程继续"）
+    // 但需求原文是 "如果点击聊天框自动输入并发送：为什么" —— 这可能是一个额外的彩蛋。
+    // 我们严格实现：点击聊天框（消息区域）自动输入并发送 "为什么"（仅在等待姓名阶段有效）
+    // 这样会导致验证失败跳转 nishishei1.html
+
+    // 实现点击消息区域自动发送 "为什么"
+    messagesEl.addEventListener('click', function(e) {
+      // 如果正在处理或等待回复，忽略
+      if (isProcessing || isWaitingForReply) return;
+      // 只在等待姓名阶段生效
+      if (stepIndex === STEPS.WAIT_NAME) {
+        // 自动填入 "为什么" 并发送
+        const whyText = '为什么';
+        inputEl.value = whyText;
+        handleUserInput(whyText);
+        clearInput();
+      }
+    });
+
+    console.log('🦞 聊天已初始化');
+    console.log('📌 输入 "何前程" 继续对话');
+    console.log('📌 点击消息区域自动发送 "为什么" (会跳转 nishishei1.html)');
+  })();
+</script>
+
+</body>
+</html>
